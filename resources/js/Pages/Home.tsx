@@ -9,9 +9,11 @@ import Importacion5 from '@img/Importacion-5.jpeg'
 import Importacion6 from '@img/Importacion-6.jpeg'
 import { Head } from "@inertiajs/react";
 
-export default function Home({ }: PageProps) {
+export default function Home(props : PageProps)
+{
+    const  { } = props
     return (
-        <Layout>
+        <Layout {...props}>
             <Head title="Home" />
 
             <section id="hero-section" className="text-gray-600 body-font bg-gray-900">

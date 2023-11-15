@@ -26,6 +26,8 @@
     },
     "dependencies": {
         "@egoist/tailwindcss-icons": "^1.4.0",
-        "@iconify/json": "^2.2.139"
+        "@iconify/json": "^2.2.139",
+        "clsx": "^2.0.0",
+        "tailwind-merge": "^2.0.0"
     }
 }

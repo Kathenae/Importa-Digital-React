@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('lessons', function (Blueprint $table) {
+        Schema::create('user_permissions', function (Blueprint $table) {
             $table->id();
-            $table->string("title");
-            $table->string("videoUrl");
-            $table->longText("description");
+            $table->foreignId("user_id")
+                ->references('id')
+                ->on('users')
+                ->cascadeOnDelete();
+
+            $table->string("action")->index();
             $table->timestamps();
         });
     }
@@ -25,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('lessons');
+        Schema::dropIfExists('user_permissions');
     }
 };

@@ -38,7 +38,7 @@ const Trigger = ({ children }: PropsWithChildren) => {
     );
 };
 
-const Content = ({ align = 'right', width = '48', contentClasses = 'py-1 bg-white', children }: PropsWithChildren<{ align?: 'left'|'right', width?: '48', contentClasses?: string }>) => {
+const Content = ({ align = 'right', width = '48', contentClasses = 'py-1 bg-white', keepOpen=false, backdrop=false, children }: PropsWithChildren<{ align?: 'left'|'right', width?: '48', backdrop?: boolean, keepOpen?: boolean, contentClasses?: string }>) => {
     const { open, setOpen } = useContext(DropDownContext);
 
     let alignmentClasses = 'origin-top';
@@ -57,6 +57,10 @@ const Content = ({ align = 'right', width = '48', contentClasses = 'py-1 bg-whit
 
     return (
         <>
+            {open && backdrop &&
+                <div className='fixed top-0 left-0 h-screen w-screen bg-black opacity-50 z-40' onClick={() => setOpen(false)}>
+                </div>
+            }
             <Transition
                 as={Fragment}
                 show={open}
@@ -69,7 +73,7 @@ const Content = ({ align = 'right', width = '48', contentClasses = 'py-1 bg-whit
             >
                 <div
                     className={`absolute z-50 mt-2 rounded-md shadow-lg ${alignmentClasses} ${widthClasses}`}
-                    onClick={() => setOpen(false)}
+                    onClick={() => setOpen(keepOpen)}
                 >
                     <div className={`rounded-md ring-1 ring-black ring-opacity-5 ` + contentClasses}>{children}</div>
                 </div>

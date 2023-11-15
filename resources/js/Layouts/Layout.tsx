@@ -2,31 +2,59 @@ import { PropsWithChildren } from "react";
 import { Link } from "@inertiajs/react";
 import LogoBlack from '@img/logo.png';
 import LogoSignature from '@img/assinatura white.png';
+import { PageProps } from "@/types";
 
-export default function Layout({ children }: PropsWithChildren) {
+interface LayoutProps extends PageProps {
+    children: React.ReactNode
+}
 
+export default function Layout({ children, auth }: LayoutProps) {
+    console.log(auth)
     return (
-        <div className="flex flex-col min-h-screen">
-            <header className="bg-white px-12 w-full flex sm:flex-col items-center justify-between sm:justify-center border-b-4 border-primary-500 pt-12 pb-6">
+        <div className="flex flex-col min-h-screen bg-gray-100">
+            <header className="bg-white shadow-lg px-12 w-full flex sm:flex-col items-center justify-between sm:justify-center border-b-4 border-primary-500 pt-12 pb-6">
                 <img src={LogoBlack} className="w-24 sm:w-[350px]" />
 
                 <nav className="container flex flex-row items-center justify-evenly w-full mt-8 text-primary-500 font-bold uppercase">
-                    <Link className="flex items-center space-x-1" href="">
+                    <Link className="flex items-center space-x-1" href="/">
                         <i className="i-mdi-home" />
                         <span>Home</span>
                     </Link>
-                    <Link className="flex items-center space-x-1" href="">
-                        <i className="i-mdi-user-circle" />
-                        <span>Crear Cuenta</span>
-                    </Link>
-                    <Link className="flex items-center space-x-1" href="">
-                        <i className="i-mdi-login" />
-                        <span>Iniciar Session</span>
-                    </Link>
-                    <Link className="flex items-center space-x-1" href="">
-                        <span>Sepa Mais</span>
-                        <i className="i-mdi-caret-down" />
-                    </Link>
+                    {auth.user === null ?
+                        <>
+                            <Link className="flex items-center space-x-1" href={route('register')}>
+                                <i className="i-mdi-user-circle" />
+                                <span>Crear Cuenta</span>
+                            </Link>
+                            <Link className="flex items-center space-x-1" href={route('login')}>
+                                <i className="i-mdi-login" />
+                                <span>Iniciar Session</span>
+                            </Link>
+                            <Link className="flex items-center space-x-1" href="">
+                                <span>Sepa Mais</span>
+                                <i className="i-mdi-caret-down" />
+                            </Link>
+                        </>
+                        :
+                        <>
+                            {auth.permissions?.includes('watch@Lesson') &&
+                                <Link className="flex items-center space-x-1" href={route('lessons')}>
+                                    <i className="i-mdi-book-open" />
+                                    <span>Aulas</span>
+                                </Link>
+                            }
+                            {auth.permissions?.includes('view-admin-dashboard') &&
+                                <Link className="flex items-center space-x-1" href={route('admin')}>
+                                    <i className="i-mdi-shield" />
+                                    <span>Administração</span>
+                                </Link>
+                            }
+                            <Link method="post" className="flex items-center space-x-1" href={route('logout')}>
+                                <i className="i-mdi-logout" />
+                                <span>Salir</span>
+                            </Link>
+                        </>
+                    }
                 </nav>
             </header>
 
