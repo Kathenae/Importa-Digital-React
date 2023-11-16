@@ -19,7 +19,10 @@ export default {
             },
             container: {
                 center: true,
-                padding: '12rem',
+                padding: {
+                    DEFAULT: '1rem',
+                    lg: '12rem',
+                },
             },
             colors: {
                 'primary': {
