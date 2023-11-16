@@ -12,10 +12,10 @@ export default function Layout({ children, auth }: LayoutProps) {
     console.log(auth)
     return (
         <div className="flex flex-col min-h-screen bg-gray-100">
-            <header className="bg-white shadow-lg px-12 w-full flex sm:flex-col items-center justify-between sm:justify-center border-b-4 border-primary-500 pt-12 pb-6">
+            <header className="bg-white shadow-lg px-12 w-full flex flex-col sm:flex-col items-center justify-between sm:justify-center border-b-4 border-primary-500 pt-12 pb-6">
                 <img src={LogoBlack} className="w-24 sm:w-[350px]" />
 
-                <nav className="container flex flex-row items-center justify-evenly w-full mt-8 text-primary-500 font-bold uppercase">
+                <nav className="container flex flex-col md:flex-row md:space-y-0 md:justify-evenly space-y-4 items-start mt-8 text-primary-500 font-bold uppercase">
                     <Link className="flex items-center space-x-1" href="/">
                         <i className="i-mdi-home" />
                         <span>Home</span>
@@ -30,7 +30,7 @@ export default function Layout({ children, auth }: LayoutProps) {
                                 <i className="i-mdi-login" />
                                 <span>Iniciar Session</span>
                             </Link>
-                            <Link className="flex items-center space-x-1" href="">
+                            <Link className="flex items-center space-x-1" href="#video-section">
                                 <span>Sepa Mais</span>
                                 <i className="i-mdi-caret-down" />
                             </Link>
