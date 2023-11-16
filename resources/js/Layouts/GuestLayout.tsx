@@ -4,7 +4,7 @@ import { PropsWithChildren } from 'react';
 
 export default function Guest({ children }: PropsWithChildren) {
     return (
-        <div className="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
+        <div className="min-h-screen flex flex-col sm:justify-center items-center pt-32 sm:pt-0 bg-gray-100 px-1">
             <div>
                 <Link href="/">
                     <ApplicationLogo size={228} />
