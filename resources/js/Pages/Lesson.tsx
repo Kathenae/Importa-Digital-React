@@ -13,7 +13,7 @@ export default function LessonPage(props: LessonProps) {
     const [currentLessonIndex, setCurrentLessonIndex] = useState(lessons.findIndex(l => l.id == currentLesson?.id))
 
     const slicedLessons = () => {
-        const size = 20
+        const size = 10
         let start = Math.max(0, currentLessonIndex - Math.round(size / 2));
         let end = start + size;
         if (end > lessons.length) {
@@ -34,10 +34,10 @@ export default function LessonPage(props: LessonProps) {
 
     return (
         <Layout {...props}>
-            <div className="container">
-                <div className="flex-1 py-12 px-16">
+            <div className="xl:container">
+                <div className="flex-1 py-12 md:px-16 lg:px-24">
 
-                    <h1 key={currentLessonIndex} className="text-4xl font-bold mb-12 text-primary-500">Aulas Importa Digital</h1>
+                    <h1 key={currentLessonIndex} className="text-xl md:text-4xl font-bold mb-4 text-primary-500">Aula {currentLessonIndex + 1}/{lessons.length} - {lessons[currentLessonIndex]?.title}</h1>
 
                     {/* Video player */}
                     <div className="aspect-video">
@@ -47,8 +47,8 @@ export default function LessonPage(props: LessonProps) {
                     </div>
 
                     {/* Horizontal lessons list */}
-                    <div className="flex flex-row items-center justify-between mt-8">
-                        <div>
+                    <div className="flex flex-row space-x-4 items-center justify-between mt-8">
+                        <div className="hidden lg:block">
                             {/* Lessons dots within current lesson to 10 ahead */}
                             <div className="flex flex-row items-center space-x-4">
                                 {slicedLessons().map((lesson, index) => (
@@ -64,9 +64,9 @@ export default function LessonPage(props: LessonProps) {
                 </div>
 
                 {/* Description */}
-                <div className="flex flex-col sm:flex-row" key={currentLessonIndex}>
-                    <div className="flex-1 bg-white rounded-t-3xl shadow-xl py-12 px-16 min-h-[400px]">
-                        <h1 className="text-4xl font-bold mb-8 text-primary-500">Aula {currentLessonIndex + 1}/{lessons.length} - {lessons[currentLessonIndex]?.title}</h1>
+                <div className="flex flex-col px-0 sm:px-12 xl:px-0 sm:flex-row" key={currentLessonIndex}>
+                    <div className="flex-1 bg-white rounded-t-3xl shadow-xl py-4 md:py-12 px-6 md:x-16 md:min-h-[400px]">
+                        <h1 className="text-xl md:text-4xl font-bold mb-8 text-primary-500">Aula {currentLessonIndex + 1}/{lessons.length} - {lessons[currentLessonIndex]?.title}</h1>
                         <p className="text-lg text-gray-500">{lessons[currentLessonIndex]?.description}</p>
                     </div>
                 </div>
