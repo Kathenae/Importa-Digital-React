@@ -9,7 +9,6 @@ interface LayoutProps extends PageProps {
 }
 
 export default function Layout({ children, auth }: LayoutProps) {
-    console.log(auth)
     return (
         <div className="flex flex-col min-h-screen bg-gray-100">
             <header className="bg-white shadow-lg px-12 w-full flex flex-col sm:flex-col items-center justify-between sm:justify-center border-b-4 border-primary-500 pt-12 pb-6">
