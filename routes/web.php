@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\LessonManageController;
 use App\Http\Controllers\Admin\UserManageController;
+use App\Http\Controllers\ChunkedUploadController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\ProfileController;
@@ -21,6 +22,10 @@ use Inertia\Inertia;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/chunked-upload', [ChunkedUploadController::class, 'index']);
+Route::post('/chunked-upload', [ChunkedUploadController::class, 'post']);
+
 
 Route::get('/', [HomeController::class,'index'])
     ->name('home');
