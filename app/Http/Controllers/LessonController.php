@@ -20,7 +20,7 @@ class LessonController extends Controller
 
     private function show_lesson(int $lesson)
     {
-        $lessons = Lesson::all();
+        $lessons = Lesson::query()->orderBy('created_at')->get();
 
         $lesson -= 1; # Since we want lecture 1 to refer to the first element of the array
 

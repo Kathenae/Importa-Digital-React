@@ -11,7 +11,7 @@ class LessonManageController extends Controller
     public function index()
     {
         return Inertia::render('Admin/Lessons', [
-            'lessons' => Lesson::all()
+            'lessons' => Lesson::query()->orderBy('created_at')->get()
         ]);
     }
 
