@@ -93,7 +93,7 @@ class UserManageController extends Controller
 
         $user->update($validatedData);
 
-        return redirect()->route('admin.users.index')->with('flash.success', 'User updated.');
+        return redirect()->route('admin.users')->with('flash.success', 'User updated.');
     }
 
     public function approve()
