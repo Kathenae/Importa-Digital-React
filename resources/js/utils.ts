@@ -77,6 +77,8 @@ export function translate(value: string | boolean | number | null) {
         'true': 'Sim',
         'false': 'Não',
         'submit': 'Enviar',
+        'plan': 'Plano',
+        'plan_id': 'Plano',
         'lessons': 'Aulas',
 
         // Permissions
@@ -119,3 +121,10 @@ export function translate(value: string | boolean | number | null) {
 export function yesNo(yesNoString: string){
     return yesNoString == 'yes'? true : yesNoString == 'no'? false : undefined
 }
+
+export function reduceToRecord<T>(array: T[], key: keyof T, value: keyof T): Record<string, string> {
+    return array.reduce((result, item) => {
+      result[String(item[key])] = String(item[value]);
+      return result;
+    }, {} as Record<string, string>);
+  }

@@ -1,13 +1,15 @@
 import { DynamicFormInputs } from "./Components/DynamicForm";
 import { Lesson, Plan, User } from "./types";
+import { reduceToRecord } from "./utils";
 
-export function UserForm(user?: User): DynamicFormInputs {
+export function UserForm( {user, plans} : {user?: User, plans: Plan[]}): DynamicFormInputs {
     return [
         { name: 'name', type: 'text', value: user?.name ?? '' },
         { name: 'email', type: 'email', value: user?.email ?? '' },
         { name: 'password', type: 'password', value: '' },
         { name: 'password_confirmation', type: 'password', value: '' },
         { name: 'role', choices: { 'admin': 'Super Admin', 'student': 'Estudante' }, value: 'student' },
+        { name: 'plan_id', value: user?.plan? user.plan.id : plans[0].id, choices: reduceToRecord(plans, 'id', 'name')}
     ]
 }
 
@@ -26,10 +28,11 @@ export function PlanForm({plan, lessons} : {plan?: Plan, lessons: Lesson[]}): Dy
             inputs: [
                 {name: 'name', type: 'text', value: plan?.name ?? ''},
                 {name: 'description', type: 'textarea', value: plan?.description ?? ''},
-                {name: 'lessons', value: plan?.lessons? plan.lessons.map(l => l.id) : [], choices: lessons.reduce((result, item) => {
-                    result[item.id] = item.title
-                    return result;
-                }, {} as Record<string, string>)}
+                {
+                    name: 'lessons', 
+                    value: plan?.lessons? plan.lessons.map(l => l.id) : [], 
+                    choices: reduceToRecord(lessons, 'id', 'title')
+                }
             ]
         },
     ];

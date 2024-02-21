@@ -4,18 +4,18 @@ import { ChangeEvent } from "react";
 import Checkbox from "./Checkbox";
 
 interface ChoiceSelect<T> {
-    value?: string | number[],
+    value?: string | number | number[],
     name?: string,
     className?: string,
     choices: T,
     defaultAny?: boolean,
-    onChange?: (value: string | number[]) => void
+    onChange?: (value: string | number | number[]) => void
 }
 
 export default function ChoiceSelect({ value, name, className, choices, defaultAny, onChange }: ChoiceSelect<Record<string, string | number>>) {
     return (
         <>
-            {typeof value == 'string'? 
+            {typeof value == 'string' || typeof value == 'number'? 
                 <SelectInput
                     name={name}
                     className={cn("shadow-md", className)}

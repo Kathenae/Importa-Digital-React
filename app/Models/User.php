@@ -22,6 +22,7 @@ class User extends Authenticatable
         'email',
         'password',
         'is_approved',
+        'plan_id',
     ];
 
     /**

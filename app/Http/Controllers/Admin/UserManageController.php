@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Plan;
 use App\Models\User;
 use App\Models\UserPermission;
 use Exception;
@@ -20,7 +21,9 @@ class UserManageController extends Controller
 
     public function create()
     {
-        return Inertia::render('Admin/UserCreate');
+        return Inertia::render('Admin/UserCreate', [
+            'plans' => Plan::all()
+        ]);
     }
 
     public function store()
@@ -29,8 +32,9 @@ class UserManageController extends Controller
             'name' => 'required',
             'email' => 'required',
             'password' => 'required|confirmed',
-            'password_confirmation' => 'required',
+            'password_confirmation' => 'required_with:password|same:password',
             'role' => 'required|in:admin,student',
+            'plan_id' => 'required|exists:plans,id',
         ]);
 
         $validatedData['password'] = Hash::make($validatedData['password']);
@@ -72,7 +76,8 @@ class UserManageController extends Controller
     public function edit(User $user)
     {
         return Inertia::render('Admin/UserEdit', [
-            'user' => $user
+            'user' => $user->load('plan'),
+            'plans' => Plan::all(),
         ]);
     }
 
@@ -82,7 +87,8 @@ class UserManageController extends Controller
             'name' => 'required',
             'email' => 'required',
             'password' => 'nullable|confirmed',
-            'password_confirmation' => 'required',
+            'password_confirmation' => 'required_with:password|same:password',
+            'plan_id' => 'required|exists:plans,id',
         ]);
 
         if ($validatedData['password'] !== null) {
