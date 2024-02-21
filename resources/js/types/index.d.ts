@@ -12,6 +12,13 @@ export interface UserPermission{
     user_id: string;
 }
 
+export interface Plan {
+    id: number
+    name: string,
+    lessons?: Lesson[],
+    description: string
+}
+
 export interface Lesson {
     id: number;
     title: string;

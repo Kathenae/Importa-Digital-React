@@ -3,14 +3,12 @@
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\LessonManageController;
 use App\Http\Controllers\Admin\UserManageController;
+use App\Http\Controllers\Admin\PlanManageController;
 use App\Http\Controllers\ChunkedUploadController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LessonController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VideoStreamController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -110,6 +108,36 @@ Route::delete('/admin/lessons/{lesson}', [LessonManageController::class, 'destro
 Route::delete('/admin/lessons', [LessonManageController::class, 'destroyMany'])
     ->middleware(['auth', 'allow:destroyMany@Lesson'])
     ->name('admin.lessons.destroyMany');
+#endregion
+
+#region Plan Management
+Route::get('/admin/plans', [PlanManageController::class, 'index'])
+    ->middleware(['auth', 'allow:view@Plan'])
+    ->name('admin.plans');
+
+Route::get('/admin/plans/create', [PlanManageController::class, 'create'])
+    ->middleware(['auth', 'allow:create@Plan'])
+    ->name('admin.plans.create');
+
+Route::post('/admin/plans/create', [PlanManageController::class, 'store'])
+    ->middleware(['auth', 'allow:create@Plan'])
+    ->name('admin.plans.store');
+
+Route::get('/admin/plans/{plan}/edit', [PlanManageController::class, 'edit'])
+    ->middleware(['auth', 'allow:edit@Plan'])
+    ->name('admin.plans.edit');
+
+Route::post('/admin/plans/{plan}/edit', [PlanManageController::class, 'update'])
+    ->middleware(['auth', 'allow:edit@Plan'])
+    ->name('admin.plans.update');
+
+Route::delete('/admin/plans/{plan}', [PlanManageController::class, 'destroy'])
+    ->middleware(['auth', 'allow:destroy@Plan'])
+    ->name('admin.plans.destroy');
+
+Route::delete('/admin/plans', [PlanManageController::class, 'destroyMany'])
+    ->middleware(['auth', 'allow:destroyMany@Plan'])
+    ->name('admin.plans.destroyMany');
 #endregion
 
 require __DIR__.'/auth.php';

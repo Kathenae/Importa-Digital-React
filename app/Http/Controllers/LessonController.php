@@ -20,7 +20,8 @@ class LessonController extends Controller
 
     private function show_lesson(int $lesson)
     {
-        $lessons = Lesson::query()->orderBy('created_at')->get();
+        // TODO: Check if user is subscribed to a plan
+        $lessons = request()->user()->plan->lessons;
 
         $lesson -= 1; # Since we want lecture 1 to refer to the first element of the array
 

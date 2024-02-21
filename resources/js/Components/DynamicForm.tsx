@@ -66,10 +66,10 @@ function DynamicInput({ input, setData, onChange, value, errors }: DynamicInputP
                         className="w-full"
                         value={value ?? ''}
                         choices={input.choices}
-                        onChange={(e) => {
-                            setData(input.name, e.target.value)
+                        onChange={(value) => {
+                            setData(input.name, value)
                             if(onChange){
-                                onChange(input, e.target.value)
+                                onChange(input, value)
                             }
                         }}
                     /> :

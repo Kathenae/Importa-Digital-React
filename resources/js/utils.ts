@@ -77,6 +77,7 @@ export function translate(value: string | boolean | number | null) {
         'true': 'Sim',
         'false': 'Não',
         'submit': 'Enviar',
+        'lessons': 'Aulas',
 
         // Permissions
         'permissions': 'Permissões',

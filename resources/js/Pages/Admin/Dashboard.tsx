@@ -22,6 +22,14 @@ export default function Dashboard(props : PageProps)
                     </div>
                     <div className="bg-white rounded-lg px-12 py-8 shadow-xl mt-12">
                         <h3 className="text-xl font-bold mb-2 space-x-2 flex items-center">
+                            <i className="i-mdi-cash text-3xl"/>
+                            <span>Planos</span>
+                        </h3>
+                        <p>Crie planos para utilizadores do teu aplicativo</p>
+                        <PrimaryButton onClick={() => router.get(route('admin.plans'))} className="mt-6">Ir Agora</PrimaryButton>
+                    </div>
+                    <div className="bg-white rounded-lg px-12 py-8 shadow-xl mt-12">
+                        <h3 className="text-xl font-bold mb-2 space-x-2 flex items-center">
                             <i className="i-mdi-book-open text-3xl"/>
                             <span>Aulas</span>
                         </h3>
