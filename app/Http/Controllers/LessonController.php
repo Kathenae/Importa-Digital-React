@@ -20,7 +20,11 @@ class LessonController extends Controller
 
     private function show_lesson(int $lesson)
     {
-        // TODO: Check if user is subscribed to a plan
+        if(request()->user()->plan == null)
+        {
+            return redirect()->route('home')->with('error', 'No plan');
+        }
+        
         $lessons = request()->user()->plan->lessons;
 
         $lesson -= 1; # Since we want lecture 1 to refer to the first element of the array
