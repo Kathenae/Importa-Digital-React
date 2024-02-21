@@ -1,6 +1,7 @@
 import TableList from "@/Components/TableList";
 import Layout from "@/Layouts/Layout";
 import { Lesson, PageProps } from "@/types";
+import { Head } from "@inertiajs/react";
 import { useState } from "react";
 
 interface LessonProps extends PageProps {
@@ -34,6 +35,8 @@ export default function LessonPage(props: LessonProps) {
 
     return (
         <Layout {...props}>
+            <Head title={lessons[currentLessonIndex].title} />
+            
             <div className="xl:container">
                 <div className="flex-1 py-12 md:px-16 lg:px-24">
 
