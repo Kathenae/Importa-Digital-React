@@ -18,6 +18,7 @@ export function LessonForm(lesson?: Lesson): DynamicFormInputs {
         { name: 'title', type: 'text', value: lesson?.title ?? '' },
         { name: 'description', type: 'textarea', value: lesson?.description ?? '' },
         { name: 'video', type: 'file', accept: 'video/*', value: '' },
+        { name: 'lesson_files', type: 'file', multiple: true, value: '' },
     ]
 }
 

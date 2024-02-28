@@ -1,7 +1,7 @@
 import TableList from "@/Components/TableList";
 import Layout from "@/Layouts/Layout";
 import { Lesson, PageProps } from "@/types";
-import { Head } from "@inertiajs/react";
+import { Head, Link } from "@inertiajs/react";
 import { useState } from "react";
 
 interface LessonProps extends PageProps {
@@ -71,6 +71,17 @@ export default function LessonPage(props: LessonProps) {
                     <div className="flex-1 bg-white rounded-t-3xl shadow-xl py-4 md:py-12 px-6 md:x-16 md:min-h-[400px]">
                         <h1 className="text-xl md:text-4xl font-bold mb-8 text-primary-500">Aula {currentLessonIndex + 1}/{lessons.length} - {lessons[currentLessonIndex]?.title}</h1>
                         <p className="text-lg text-gray-500">{lessons[currentLessonIndex]?.description}</p>
+                        
+                        {lessons[currentLessonIndex].files &&
+                            <div className="mt-12">
+                                <h4 className="text-base md:text-4xl font-bold mb-4 text-primary-500">Conteudo Extra</h4>
+                                <ul className="list-disc list-inside">
+                                    {lessons[currentLessonIndex].files?.map((file) => (
+                                        <li key={file.id}><Link className="text-primary-600 hover:text-primary-500" href={file.full_url}>{file.filename}</Link></li>
+                                    ))}
+                                </ul>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>

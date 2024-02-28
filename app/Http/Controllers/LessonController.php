@@ -25,7 +25,7 @@ class LessonController extends Controller
             return redirect()->route('home')->with('error', 'No plan');
         }
         
-        $lessons = request()->user()->plan->lessons;
+        $lessons = request()->user()->plan->lessons->load('files');
 
         $lesson -= 1; # Since we want lecture 1 to refer to the first element of the array
 

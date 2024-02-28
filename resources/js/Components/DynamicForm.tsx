@@ -1,14 +1,15 @@
 import { useForm } from "@inertiajs/react";
 import InputLabel from "./InputLabel";
 import TextInput from "./TextInput";
-import { FormEventHandler, PropsWithChildren, ReactNode, useState } from "react";
+import { FormEvent, FormEventHandler, PropsWithChildren, ReactNode, useState } from "react";
 import InputError from "./InputError";
 import ChoiceSelect from "./ChoiceSelect";
 import PrimaryButton from "./PrimaryButton";
-import { cn, translate as tr } from "@/utils";
+import { cn, formatEstimatedTime, formatTransferRate, translate as tr } from "@/utils";
 import Checkbox from "./Checkbox";
 import Collapsable from "./Collapsable";
 import DangerButton from "./DangerButton";
+import SecondaryButton from "./SecondaryButton";
 
 
 function canShow(input: FormInput, data: Record<string, any>) {
@@ -134,7 +135,7 @@ function DynamicInput({ input, setData, onChange, value, errors }: DynamicInputP
 
             {Object.keys(errors).map((key) => {
                 if (key.startsWith(input.name)) {
-                    return <InputError message={errors[key]} className="mt-2" />;
+                    return <InputError key={key} message={errors[key]} className="mt-2" />;
                 }
                 return null;
             })}
@@ -191,26 +192,23 @@ interface DynamicFormProps extends PropsWithChildren {
     method: 'post' | 'put' | 'patch',
     inputs: DynamicFormInputs,
     multistep?: boolean,
+    showProgress?: boolean,
+    preserveState?: boolean,
+    preserveScroll?: boolean,
+    only?: string[],
     onChange?: (input: FormInput, value: any) => void,
 }
 
-export default function DynamicForm({ inputs, submitUrl, method, multistep, children, onChange }: DynamicFormProps) {
+export default function DynamicForm({ inputs, submitUrl, method, multistep, showProgress, preserveState, preserveScroll, only, children, onChange }: DynamicFormProps) {
     const initialValues = inputs.reduce(reduceFormInputs, {} as Record<string, any>)
-    const { data, setData, post, patch, put, processing, errors, reset } = useForm(initialValues);
+    const { data, setData, post, processing, progress, errors, reset, cancel } = useForm({...initialValues, _method: method} as Record<string, any>);
 
     const steps = inputs.filter(i => 'inputs' in i) as FormGroup[];
     const [activeStep, setActiveStep] = useState(steps[0]);
 
-    const submit= () => {
-        if (method == 'post') {
-            post(submitUrl)
-        }
-        else if (method == 'patch') {
-            patch(submitUrl)
-        }
-        else if (method == 'put') {
-            put(submitUrl)
-        }
+    const submit= (e : FormEvent) => {
+        e.preventDefault();
+        post(submitUrl, {preserveState, preserveScroll, only})
     }
 
     const handleStep = (back = false) => {
@@ -248,7 +246,7 @@ export default function DynamicForm({ inputs, submitUrl, method, multistep, chil
                 </div>
             }
             <div className="rounded-lg px-4 py-4 bg-white shadow-lg">
-                <form method={method} encType="multipart/form-data">
+                <form onSubmit={submit} encType="multipart/form-data">
                     <div className="space-y-4">
                         {/* Render inputs but filter out the inactive InputGroups but only if the form is multistep */}
                         {inputs.filter(i => !('inputs' in i && multistep && activeStep.name != i.name)).map((input, index) => (
@@ -265,6 +263,22 @@ export default function DynamicForm({ inputs, submitUrl, method, multistep, chil
                         ))}
                     </div>
                     {children}
+                    {showProgress && progress &&
+                        <>
+
+                            <div className="flex justify-between mt-4 mb-1">
+                                <span className="text-base font-medium text-primary-700">Enviando</span>
+                                <span className="text-sm font-medium text-primary-700">{progress.percentage}%</span>
+                            </div>
+                            <div className="w-full bg-gray-200 rounded-full h-2.5">
+                                <div className="bg-primary-600 h-2.5 rounded-full" style={{ width: `${progress.percentage}%` }}></div>
+                            </div>
+                            <div className="flex justify-between mt-1">
+                                <span className="text-base font-medium text-primary-700">Tempo estimado</span>
+                                <span className="text-sm font-medium text-primary-700">{formatEstimatedTime(progress.estimated ?? 0)} - {formatTransferRate(progress.rate ?? 0)}</span>
+                            </div>
+                        </>
+                    }
                     <div className="flex items-center justify-between mt-8 border-t pt-3">
                         {multistep &&
                             <DangerButton type="button" onClick={() => handleStep(true)}>
@@ -283,13 +297,13 @@ export default function DynamicForm({ inputs, submitUrl, method, multistep, chil
                             :
                             <PrimaryButton
                                 id="submit_button"
-                                type={'button'}
-                                onClick={() => submit()}
+                                type={'submit'}
                                 disabled={processing}
                             >
                                 {tr('Submit')}
                             </PrimaryButton>
                         }
+                        {processing && <SecondaryButton disabled={!processing} onClick={cancel}>{tr('Cancel')}</SecondaryButton>}
                     </div>
                 </form>
             </div>

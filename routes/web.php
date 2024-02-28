@@ -97,7 +97,7 @@ Route::get('/admin/lessons/{lesson}/edit', [LessonManageController::class, 'edit
     ->middleware(['auth', 'allow:edit@Lesson'])
     ->name('admin.lessons.edit');
 
-Route::post('/admin/lessons/{lesson}/edit', [LessonManageController::class, 'update'])
+Route::put('/admin/lessons/{lesson}/edit', [LessonManageController::class, 'update'])
     ->middleware(['auth', 'allow:edit@Lesson'])
     ->name('admin.lessons.update');
 
@@ -108,6 +108,10 @@ Route::delete('/admin/lessons/{lesson}', [LessonManageController::class, 'destro
 Route::delete('/admin/lessons', [LessonManageController::class, 'destroyMany'])
     ->middleware(['auth', 'allow:destroyMany@Lesson'])
     ->name('admin.lessons.destroyMany');
+
+Route::delete('/admin/lesson_files/{lessonFile}', [LessonManageController::class, 'destroyFile'])
+    ->middleware(['auth', 'allow:edit@Lesson'])
+    ->name('admin.lessons.destroyFile');
 #endregion
 
 #region Plan Management

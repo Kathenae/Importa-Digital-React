@@ -31,6 +31,30 @@ export async function downloadFiles(urls: string[]) {
     return files ?? []
 }
 
+export function formatEstimatedTime(seconds: number){
+    const minutes = Math.floor(seconds / 60)
+    const hours = Math.floor(minutes / 60)
+
+    const secondsLeft = seconds % 60
+    const minutesLeft = minutes % 60
+
+    const hoursString = hours > 0? `${hours.toFixed()}h` : ''
+    const minutesString = minutesLeft > 0? `${minutesLeft.toFixed()}m` : ''
+    const secondsString = secondsLeft > 0? `${secondsLeft.toFixed()}s` : ''
+
+    return `${hoursString} ${minutesString} ${secondsString}`.trim()
+}
+
+export function formatTransferRate(bytesPerSecond: number){
+    const rate = bytesPerSecond
+    const rateKb = rate / 1024
+    const rateMb = rateKb / 1024
+
+    const rateMbString = rateMb > 0? `${rateMb.toFixed(2)}MB/s` : ''
+
+    return `${rateMbString}`.trim()
+}
+
 /**
  * This function translates English words into Portuguese.
  * It takes a string as an input and checks if it exists in the dictionary object.
@@ -69,6 +93,7 @@ export function translate(value: string | boolean | number | null) {
         'description': 'Descrição',
         'video': 'Vídeo',
         'videourl': 'Link do Vídeo',
+        'lesson_files': 'Conteudo Extra', 
 
         // Navigation
         'next': 'Seguinte',
@@ -77,6 +102,7 @@ export function translate(value: string | boolean | number | null) {
         'true': 'Sim',
         'false': 'Não',
         'submit': 'Enviar',
+        'cancel': 'Cancelar',
         'plan': 'Plano',
         'plan_id': 'Plano',
         'lessons': 'Aulas',

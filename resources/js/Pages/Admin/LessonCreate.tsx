@@ -17,6 +17,7 @@ export default function LessonCreate(props : PageProps)
                 <DynamicForm
                     method="post"
                     submitUrl={route('admin.lessons.store')}
+                    showProgress
                     inputs={LessonForm()}
                 />
             </div>

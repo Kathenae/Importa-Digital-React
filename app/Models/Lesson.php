@@ -14,4 +14,9 @@ class Lesson extends Model
         'description',
         'videoUrl',
     ];
+    
+    public function files()
+    {
+        return $this->hasMany(LessonFile::class);
+    }
 }
