@@ -1,16 +1,16 @@
 import DynamicForm from "@/Components/DynamicForm";
 import Layout from "@/Layouts/Layout";
 import { PlanForm } from "@/forms";
-import { Lesson, PageProps, Plan } from "@/types";
+import { PageProps, Plan, User } from "@/types";
 import { Head, Link } from "@inertiajs/react";
 
 interface PlanEditProps extends PageProps {
     plan: Plan,
-    lessons: Lesson[]
+    users: User[]
 }
 
 export default function PlanEdit(props: PlanEditProps) {
-    const { plan, lessons } = props
+    const { plan, users } = props
     return (
         <Layout {...props}>
             <Head title="Administração" />
@@ -21,7 +21,7 @@ export default function PlanEdit(props: PlanEditProps) {
                 <DynamicForm
                     method="post"
                     submitUrl={route('admin.plans.update', plan.id)}
-                    inputs={PlanForm({plan, lessons})}
+                    inputs={PlanForm({plan, users})}
                 />
             </div>
         </Layout>

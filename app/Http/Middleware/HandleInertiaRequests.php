@@ -35,12 +35,22 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
             'auth' => [
                 'user' => $user,
-                'permissions' => isset($user)? $user->permissions->pluck('action')->toArray() : [],
+                'permissions' => isset ($user) ? $user->permissions->pluck('action')->toArray() : [],
             ],
-            'ziggy' => fn () => [
+            'ziggy' => fn() => [
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),
             ],
+            'flash' => [
+                'success' => fn() => $request->session()->get('flash.success'),
+                'error' => fn() => $request->session()->get('flash.error'),
+                'warning' => fn() => $request->session()->get('flash.warning'),
+            ],
+            'popup' => [
+                'message' => fn() => $request->session()->get('popup.message'),
+                'type' => fn() => $request->session()->get('popup.type'),
+                'variant' => fn() => $request->session()->get('popup.variant'),
+            ]
         ];
     }
 }

@@ -27,7 +27,7 @@ export default function Users(props: UsersProps) {
     const handleDelete = () => {
         router.delete(route('admin.users.destroyMany'), {
             data: { ids: checkedItems.map((item) => item.id) },
-            only: ['users']
+            only: ['users', 'flash', 'errors', 'popup']
         })
     }
 
@@ -37,7 +37,7 @@ export default function Users(props: UsersProps) {
         router.patch(route('admin.users.approve'), {
             ids
         }, {
-            only: ['users']
+            only: ['users', 'flash', 'errors', 'popup']
         })
     }
 
@@ -47,7 +47,7 @@ export default function Users(props: UsersProps) {
         router.patch(route('admin.users.unapprove'), {
             ids,
         }, {
-            only: ['users'],
+            only: ['users', 'flash', 'errors', 'popup']
         })
     }
 

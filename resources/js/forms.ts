@@ -1,5 +1,5 @@
 import { DynamicFormInputs } from "./Components/DynamicForm";
-import { Lesson, Plan, User } from "./types";
+import { Lesson, Plan, User, Course } from "./types";
 import { reduceToRecord } from "./utils";
 
 export function UserForm( {user, plans} : {user?: User, plans: Plan[]}): DynamicFormInputs {
@@ -22,7 +22,8 @@ export function LessonForm(lesson?: Lesson): DynamicFormInputs {
     ]
 }
 
-export function PlanForm({plan, lessons} : {plan?: Plan, lessons: Lesson[]}): DynamicFormInputs{
+export function PlanForm({plan, users} : {plan?: Plan, users: User[]}): DynamicFormInputs{
+    console.log(plan)
     return [
         {
             name: 'Plano',
@@ -30,11 +31,20 @@ export function PlanForm({plan, lessons} : {plan?: Plan, lessons: Lesson[]}): Dy
                 {name: 'name', type: 'text', value: plan?.name ?? ''},
                 {name: 'description', type: 'textarea', value: plan?.description ?? ''},
                 {
-                    name: 'lessons', 
-                    value: plan?.lessons? plan.lessons.map(l => l.id) : [], 
-                    choices: reduceToRecord(lessons, 'id', 'title')
+                    name: 'subscribers', 
+                    value: plan?.subscribers? plan.subscribers.map(u => u.id) : [], 
+                    choices: reduceToRecord(users, 'id', 'email')
                 }
             ]
         },
     ];
+}
+
+export function CourseForm({ course, lessons, plans }: { course?: Course, plans: Plan[], lessons: Lesson[] }): DynamicFormInputs {
+    return [
+        { name: 'name', type: 'text', value: course?.name ?? '' },
+        { name: 'description', type: 'textarea', value: course?.description ?? '' },
+        { name: 'plans', value: course?.plans?.map(p => p.id) ?? [], choices: reduceToRecord(plans, 'id', 'name')},
+        { name: 'lessons', value: course?.lessons?.map(l => l.id) ?? [], choices: reduceToRecord(lessons, 'id', 'title') },
+    ]
 }

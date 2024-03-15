@@ -2,30 +2,40 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
 use App\Models\Lesson;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class LessonController extends Controller
 {
-    public function index()
+    public function index(Course $course)
     {
-        return $this->show_lesson(0);
+        return $this->show_lesson($course, 0);
     }
 
-    public function show(int $lesson)
+    public function show(Course $course, int $lesson)
     {
-        return $this->show_lesson($lesson);
+        return $this->show_lesson($course, $lesson);
     }
 
-    private function show_lesson(int $lesson)
+    private function show_lesson(Course $course, int $lesson)
     {
-        if(request()->user()->plan == null)
+        $user = request()->user();
+        if($user->plan == null)
         {
             return redirect()->route('home')->with('error', 'No plan');
         }
         
-        $lessons = request()->user()->plan->lessons->load('files');
+        if($course->plans()->where('plan_id', $user->plan->id)->exists() == false){
+            return redirect()->route('courses')->with([
+                'popup.type' => 'alert',
+                'popup.message' => 'Parece que no estás suscrito a este curso, por favor contáctanos si deseas hacerlo',
+                'popup.variant' => 'info'
+            ]);
+        }
+        
+        $lessons = $course->lessons->load('files');
 
         $lesson -= 1; # Since we want lecture 1 to refer to the first element of the array
 

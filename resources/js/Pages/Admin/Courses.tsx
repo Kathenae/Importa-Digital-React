@@ -1,27 +1,26 @@
 import DangerButton from "@/Components/DangerButton";
 import PrimaryButton from "@/Components/PrimaryButton";
-import SecondaryButton from "@/Components/SecondaryButton";
 import TableList from "@/Components/TableList";
 import TextInput from "@/Components/TextInput";
 import Layout from "@/Layouts/Layout";
-import { Lesson, PageProps } from "@/types";
+import { Plan, PageProps, Course } from "@/types";
 import { Transition } from "@headlessui/react";
 import { Head, Link, router } from "@inertiajs/react";
 import { useState } from "react";
 
-interface LessonsProps extends PageProps {
-    lessons: Lesson[]
+interface CoursesProps extends PageProps {
+    courses: Plan[]
 }
 
-export default function Lessons(props: LessonsProps) {
-    const { lessons } = props
-    const [searchText, setSearchText] = useState('')
-    const [checkedItems, setCheckedItems] = useState<Lesson[]>([])
+export default function Courses(props: CoursesProps) {
+    const { courses } = props
+    const [ searchText, setSearchText] = useState('')
+    const [checkedItems, setCheckedItems] = useState<Course[]>([])
 
     const handleDelete = () => {
-        router.delete(route('admin.lessons.destroyMany'), {
+        router.delete(route('admin.courses.destroyMany'), {
             data: { ids: checkedItems.map((item) => item.id) },
-            only: ['lessons']
+            only: ['courses']
         })
     }
 
@@ -30,7 +29,7 @@ export default function Lessons(props: LessonsProps) {
             <Head title="Administração" />
             <div className="container pt-12 pb-32 mb-32">
                 <h1 className="text-4xl font-bold mb-8">
-                    <Link className="text-primary-500 underline" href={route('admin')}>Administração</Link> / Aulas
+                    <Link className="text-primary-500 underline" href={route('admin')}>Administração</Link> / Cursos
                 </h1>
                 <div className="flex items-center justify-between mb-6 space-x-12">
                     <div className="flex items-center space-x-2 w-full">
@@ -45,29 +44,22 @@ export default function Lessons(props: LessonsProps) {
                             onChange={(e) => setSearchText(e.currentTarget.value)}
                         />
                     </div>
-                    <div className="flex space-x-4">
-                        <PrimaryButton
-                            onClick={() => router.get(route('admin.lessons.create'))}
-                        >
-                            Nova<span className="hidden md:inline">&nbsp;Aula</span>
-                        </PrimaryButton>
-                        <SecondaryButton
-                            onClick={() => router.get(route('admin.courses.create'))}
-                        >
-                            Novo<span className="hidden md:inline">&nbsp;Curso</span>
-                        </SecondaryButton>
-                    </div>
+                    <PrimaryButton
+                        onClick={() => router.get(route('admin.courses.create'))}
+                    >
+                        Novo<span className="hidden md:inline">&nbsp;Curso</span>
+                    </PrimaryButton>
                 </div>
 
                 <TableList
-                    columns={['id', 'title']}
-                    detailRoute="admin.lessons.edit"
+                    columns={['id', 'name']}
+                    detailRoute="admin.courses.edit"
                     searchText={searchText}
-                    items={lessons}
+                    items={courses}
                     checkedItems={checkedItems}
                     onCheck={(item, checked) => {
                         if (checked) {
-                            setCheckedItems(current => [...current, item as Lesson])
+                            setCheckedItems(current => [...current, item as Course])
                         } else {
                             setCheckedItems(current => current.filter(i => i.id !== item.id))
                         }

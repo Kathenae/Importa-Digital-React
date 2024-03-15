@@ -2,12 +2,12 @@ import DynamicForm from "@/Components/DynamicForm";
 import TableList from "@/Components/TableList";
 import Layout from "@/Layouts/Layout";
 import { PlanForm } from "@/forms";
-import { Lesson, PageProps } from "@/types";
+import { PageProps, User } from "@/types";
 import { Head, Link } from "@inertiajs/react";
 
-export default function PlanCreate(props : PageProps & { lessons: Lesson[] })
+export default function PlanCreate(props : PageProps & { users: User[] })
 {
-    const  { lessons } = props
+    const  { users } = props
     return (
         <Layout {...props}>
             <Head title="Administração" />
@@ -18,7 +18,7 @@ export default function PlanCreate(props : PageProps & { lessons: Lesson[] })
                 <DynamicForm
                     method="post"
                     submitUrl={route('admin.plans.store')}
-                    inputs={PlanForm({lessons})}
+                    inputs={PlanForm({users})}
                 />
                 
 

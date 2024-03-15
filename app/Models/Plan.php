@@ -8,15 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Plan extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'description', 'lessons'];
-    
-    public function lessons()
-    {
-        return $this->belongsToMany(Lesson::class);
-    }
+    protected $fillable = ['name', 'description', 'subscribers'];
     
     public function subscribers()
     {
-        return $this->belongsToMany(User::class);
+        return $this->hasMany(User::class);
     }
 }

@@ -23,7 +23,6 @@ export default function LessonEdit(props: LessonEditProps) {
                     method="put"
                     submitUrl={route('admin.lessons.update', lesson.id)}
                     showProgress
-                    preserveState={false}
                     preserveScroll={true}
                     only={['lesson']}
                     inputs={LessonForm(lesson)}

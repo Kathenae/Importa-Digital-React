@@ -193,13 +193,12 @@ interface DynamicFormProps extends PropsWithChildren {
     inputs: DynamicFormInputs,
     multistep?: boolean,
     showProgress?: boolean,
-    preserveState?: boolean,
     preserveScroll?: boolean,
     only?: string[],
     onChange?: (input: FormInput, value: any) => void,
 }
 
-export default function DynamicForm({ inputs, submitUrl, method, multistep, showProgress, preserveState, preserveScroll, only, children, onChange }: DynamicFormProps) {
+export default function DynamicForm({ inputs, submitUrl, method, multistep, showProgress, preserveScroll, only, children, onChange }: DynamicFormProps) {
     const initialValues = inputs.reduce(reduceFormInputs, {} as Record<string, any>)
     const { data, setData, post, processing, progress, errors, reset, cancel } = useForm({...initialValues, _method: method} as Record<string, any>);
 
@@ -208,7 +207,7 @@ export default function DynamicForm({ inputs, submitUrl, method, multistep, show
 
     const submit= (e : FormEvent) => {
         e.preventDefault();
-        post(submitUrl, {preserveState, preserveScroll, only})
+        post(submitUrl, {preserveScroll, only: [...(only ?? []), 'errors', 'flash', 'popup']})
     }
 
     const handleStep = (back = false) => {

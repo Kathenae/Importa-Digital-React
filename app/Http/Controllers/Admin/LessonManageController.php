@@ -33,7 +33,7 @@ class LessonManageController extends Controller
         ]);
         $this->saveLessonFiles($lesson);
 
-        return redirect()->route('admin.lessons.edit', $lesson->id)->with('success', 'Lesson created.');
+        return redirect()->route('admin.lessons.edit', $lesson->id)->with('flash.success', 'Lección creada exitosamente.');
     }
 
     public function edit(Lesson $lesson)
@@ -58,7 +58,7 @@ class LessonManageController extends Controller
         $lesson->update($data);
         $this->saveLessonFiles($lesson);
         
-        return redirect()->back();
+        return redirect()->back()->with('flash.success', 'Lección actualizada exitosamente.');
     }
     
     private function validateRequest()
@@ -96,12 +96,12 @@ class LessonManageController extends Controller
     {
         $lesson->delete();
 
-        return redirect()->route('admin.lessons')->with('success', 'Lesson deleted.');
+        return redirect()->route('admin.lessons')->with('flash.success', 'Lección eliminada exitosamente.');
     }
     
     public function destroyFile(LessonFile $lessonFile){
         $lessonFile->delete();
-        return redirect()->back();
+        return redirect()->back()->with('flash.success', 'conteudo eliminada exitosamente.');
     }
 
     public function destroyMany()
@@ -113,6 +113,6 @@ class LessonManageController extends Controller
 
         $ids = request('ids');
         Lesson::whereIn('id', $ids)->delete();
-        return redirect()->route('admin.lessons')->with('success', 'Lessons deleted.');
+        return redirect()->route('admin.lessons')->with('flash.success', 'Todas las lecciones seleccionadas han sido eliminadas.');
     }
 }

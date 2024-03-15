@@ -70,7 +70,7 @@ class UserManageController extends Controller
             return back()->with(['flash.error' => 'Ocurrió un error al crear el usuario.']);
         }
 
-        return redirect()->route('admin.users')->with('flash.success', 'User created.');
+        return redirect()->route('admin.users')->with('flash.success', 'Utilizador creado exitosamente');
     }
 
     public function edit(User $user)
@@ -99,7 +99,7 @@ class UserManageController extends Controller
 
         $user->update($validatedData);
 
-        return redirect()->route('admin.users')->with('flash.success', 'User updated.');
+        return redirect()->route('admin.users')->with('flash.success', 'Utilizador atualizado exitosamente');
     }
 
     public function approve()
@@ -121,10 +121,10 @@ class UserManageController extends Controller
             });
         } catch (Exception $e) {
             \Log::error($e->getMessage());
-            return back()->with(['flash.error' => 'Ocurrió un error al crear el usuario.']);
+            return back()->with(['flash.error' => 'Ocurrió un error.']);
         }
 
-        return redirect()->back()->with('flash.sucess', 'Lessons deleted.');
+        return redirect()->back()->with('flash.sucess', 'Permiciones alteradas exitosamente.');
     }
 
     public function unapprove()
@@ -145,17 +145,17 @@ class UserManageController extends Controller
             });
         } catch (Exception $e) {
             \Log::error($e->getMessage());
-            return back()->with(['flash.error' => 'Ocurrió un error al crear el usuario.']);
+            return back()->with(['flash.error' => 'Ocurrió un error.']);
         }
 
-        return redirect()->back()->with('flash.sucess', 'Lessons deleted.');
+        return redirect()->back()->with('flash.sucess', 'Permiciones alteradas exitosamente.');
     }
 
     public function destroy(User $user)
     {
         $user->delete();
 
-        return redirect()->back()->with('flash.success', 'User deleted.');
+        return redirect()->back()->with('flash.success', 'Utilizador eliminado exitosamente.');
     }
 
     public function destroyMany()
@@ -168,6 +168,6 @@ class UserManageController extends Controller
         $ids = request('ids');
         User::whereIn('id', $ids)->delete();
 
-        return redirect()->back()->with('flash.success', 'Lessons deleted.');
+        return redirect()->back()->with('flash.success', 'Todos los utilizadores selecionados han sido eliminados.');
     }
 }

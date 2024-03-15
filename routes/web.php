@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\Admin\CourseManageController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\LessonManageController;
 use App\Http\Controllers\Admin\UserManageController;
 use App\Http\Controllers\Admin\PlanManageController;
 use App\Http\Controllers\ChunkedUploadController;
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\VideoStreamController;
@@ -28,7 +30,11 @@ Route::post('/chunked-upload', [ChunkedUploadController::class, 'post']);
 Route::get('/', [HomeController::class,'index'])
     ->name('home');
 
-Route::get('/leciones', [LessonController::class,'index'])
+Route::get('/cursos', [CourseController::class, 'index'])
+    ->middleware(['auth', 'allow:watch@Lesson'])
+    ->name('courses');
+    
+Route::get('/cursos/{course}/aula', [LessonController::class,'index'])
     ->middleware(['auth', 'allow:watch@Lesson'])
     ->name('lessons');
 
@@ -142,6 +148,36 @@ Route::delete('/admin/plans/{plan}', [PlanManageController::class, 'destroy'])
 Route::delete('/admin/plans', [PlanManageController::class, 'destroyMany'])
     ->middleware(['auth', 'allow:destroyMany@Plan'])
     ->name('admin.plans.destroyMany');
+#endregion
+
+#region Course Management
+Route::get('/admin/courses', [CourseManageController::class, 'index'])
+    ->middleware(['auth', 'allow:view@Course'])
+    ->name('admin.courses');
+
+Route::get('/admin/courses/create', [CourseManageController::class, 'create'])
+    ->middleware(['auth', 'allow:create@Course'])
+    ->name('admin.courses.create');
+
+Route::post('/admin/courses/create', [CourseManageController::class, 'store'])
+    ->middleware(['auth', 'allow:create@Course'])
+    ->name('admin.courses.store');
+
+Route::get('/admin/courses/{course}/edit', [CourseManageController::class, 'edit'])
+    ->middleware(['auth', 'allow:edit@Course'])
+    ->name('admin.courses.edit');
+
+Route::post('/admin/courses/{course}/edit', [CourseManageController::class, 'update'])
+    ->middleware(['auth', 'allow:edit@Course'])
+    ->name('admin.courses.update');
+
+Route::delete('/admin/courses/{course}', [CourseManageController::class, 'destroy'])
+    ->middleware(['auth', 'allow:destroy@Course'])
+    ->name('admin.courses.destroy');
+
+Route::delete('/admin/courses', [CourseManageController::class, 'destroyMany'])
+    ->middleware(['auth', 'allow:destroyMany@Course'])
+    ->name('admin.courses.destroyMany');
 #endregion
 
 require __DIR__.'/auth.php';

@@ -104,6 +104,8 @@ export function translate(value: string | boolean | number | null) {
         'submit': 'Enviar',
         'cancel': 'Cancelar',
         'plan': 'Plano',
+        'plans': 'Planos',
+        'subscribers': 'Suscriptores',
         'plan_id': 'Plano',
         'lessons': 'Aulas',
 
