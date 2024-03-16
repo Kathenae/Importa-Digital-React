@@ -56,87 +56,65 @@ export default function Home(props: PageProps) {
                 <div className="container px-4 md:px-8 md:px-16 lg:px-32 py-24 mx-auto">
                     <div className="flex flex-wrap -mx-4">
                         <div className="px-4 mb-8 w-full md:w-1/2 md:w-1/3">
-                            <div className="px-8 py-12 bg-white bg-opacity-75 rounded-[25px]">
-                                <h2 className="text-gray-900 title-font font-bold mb-3 text-lg md:text-3xl uppercase">Video Aula</h2>
-                                <ul className="mt-8 space-y-2 flex flex-col items-center justify-center">
-                                    <li className="before:block flex items-center space-x-1">
-                                        <i className="i-mdi-checkbox-marked-outline text-primary-500 text-lg inline-block"></i>
-                                        <span>Asesoria por proveedor (350$)</span>
-                                    </li>
-                                    <li className="before:block flex items-center space-x-1">
-                                        <i className="i-mdi-checkbox-marked-outline text-primary-500 text-lg inline-block"></i>
-                                        <span>Curso básico de Alibaba (50,00$)</span>
-                                    </li>
-                                    <li className="before:block flex items-center space-x-1">
-                                        <i className="i-mdi-checkbox-marked-outline text-primary-500 text-lg inline-block"></i>
-                                        <span>Curso avanzado, importación ideal (150$)</span>
-                                    </li>
-                                    <li className="before:block flex items-center space-x-1">
-                                        <i className="i-mdi-checkbox-marked-outline text-primary-500 text-lg inline-block"></i>
-                                        <span>Cursos MKT, ventas y bonificaciones (50$)</span>
-                                    </li>
-                                </ul>
-                                <p className="text-primary-500 text-sm mt-8 flex items-start justify-start">
-                                    <i className="i-lucide-plus text-5xl"></i>
-                                    <span>Acceso al grupo exclusivo de importadores digitales y descuento en eventos presenciales</span>
-                                </p>
-                                <p className="text-lg md:text-3xl mt-8 font-bold text-secondary-900">350.000 GS.</p>
+                            <div className="px-8 py-12 bg-white bg-opacity-75 rounded-[25px] flex flex-col h-full">
+                                <h2 className="text-gray-900 title-font font-bold mb-3 text-lg md:text-3xl w-full space-x-4 flex items-center justify-center text-center uppercase">
+                                    <i className="i-mdi-checkbox-marked-outline text-primary-500 text-4xl "></i>
+                                    <span className="">Alibabá Sin <br /> Secretos</span>
+                                </h2>
+                                <h4 className="text-gray-500 text-2xl uppercase font-medium text-center">¿De Que Se Trata?</h4>
+                                <div className="mt-4">
+                                    <h4 className="text-lg uppercase font-bold text-primary-500 text-center">04 Clases online</h4>
+                                    <p className="text-center">Es un curso donde aprenderás estrategias para contactar y negociar con provedores, además de calcular los custos finales de los productos importados</p>
+                                </div>
+                                <p className="text-lg md:text-4xl mt-auto font-bold text-secondary-900 text-center pt-12">350.000 GS.</p>
                             </div>
                         </div>
                         <div className="px-4 mb-8 w-full md:w-1/2 md:w-1/3">
-                            <div className="px-8 py-12 bg-white bg-opacity-75 rounded-[25px]">
-                                <h2 className="text-gray-900 title-font font-bold mb-3 text-lg md:text-3xl uppercase">Clases en vivo</h2>
-                                <ul className="mt-8 space-y-2 flex flex-col items-center justify-center">
-                                    <li className="before:block flex items-center space-x-1">
-                                        <i className="i-mdi-checkbox-marked-outline text-primary-500 text-lg inline-block"></i>
-                                        <span>Asesoria por proveedor (350$)</span>
-                                    </li>
-                                    <li className="before:block flex items-center space-x-1">
-                                        <i className="i-mdi-checkbox-marked-outline text-primary-500 text-lg inline-block"></i>
-                                        <span>Curso básico de Alibaba (50,00$)</span>
-                                    </li>
-                                    <li className="before:block flex items-center space-x-1">
-                                        <i className="i-mdi-checkbox-marked-outline text-primary-500 text-lg inline-block"></i>
-                                        <span>Curso avanzado, importación ideal (150$)</span>
-                                    </li>
-                                    <li className="before:block flex items-center space-x-1">
-                                        <i className="i-mdi-checkbox-marked-outline text-primary-500 text-lg inline-block"></i>
-                                        <span>Cursos MKT, ventas y bonificaciones (50$)</span>
-                                    </li>
-                                </ul>
-                                <p className="text-primary-500 text-sm mt-8 flex items-start justify-start">
-                                    <i className="i-lucide-plus text-5xl"></i>
-                                    <span>Acceso al grupo exclusivo de importadores digitales y descuento en eventos presenciales</span>
-                                </p>
-                                <p className="text-lg md:text-3xl mt-8 font-bold text-secondary-900">450.000 GS.</p>
+                            <div className="px-8 py-12 bg-white bg-opacity-75 rounded-[25px] flex flex-col h-full">
+                                <h2 className="text-gray-900 title-font font-bold mb-3 text-lg md:text-3xl w-full space-x-4 flex items-center justify-center text-center uppercase">
+                                    <i className="i-mdi-checkbox-marked-outline text-primary-500 text-4xl "></i>
+                                    <span className="">Mentoria <br /> Grupal</span>
+                                </h2>
+                                <h4 className="text-gray-500 text-2xl uppercase font-medium text-center">¿De Que Se Trata?</h4>
+                                <p className="text-gray-800 text-center mt-2 font-medium">Es un curso donde aprenderás <b>estrategias</b> para contactar y negociar con provedores, además de calcular los custos finales de los productos importados</p>
+                                <div className="mt-4">
+                                    <h4 className="text-lg uppercase font-bold text-primary-500 text-center">04 Clases online</h4>
+                                    <p className="text-center text-primary-500">Acompañamiento en el desarrollo e proyectos de importación. Asesoria grupal.</p>
+                                </div>
+                                <div className="grid grid-cols-6 text-primary-500 mt-4">
+                                    <div className="col-span-1 flex flex-col items-center">
+                                        <i className="i-mdi-plus text-4xl font-bold" />
+                                        <span>PLUS</span>
+                                    </div>
+                                    <div className="col-span-5 text-xs font-bold flex items-center">
+                                        Beneficios exclusivo en servicios de importacion easy box: Descuento del 5% en servicio de flete aéreo y marítimo de china.
+                                    </div>
+                                </div>
+                                <p className="text-lg md:text-4xl mt-auto font-bold text-secondary-900 text-center pt-12">650.000 GS.</p>
                             </div>
                         </div>
                         <div className="px-4 mb-8 w-full md:w-1/2 md:w-1/3">
-                            <div className="px-8 py-12 bg-white bg-opacity-75 rounded-[25px]">
-                                <h2 className="text-gray-900 title-font font-bold mb-3 text-lg md:text-3xl uppercase">Asesoría personalizada</h2>
-                                <ul className="mt-8 space-y-2 flex flex-col items-center justify-center">
-                                    <li className="before:block flex items-center space-x-1">
-                                        <i className="i-mdi-checkbox-marked-outline text-primary-500 text-lg inline-block"></i>
-                                        <span>Asesoria por proveedor (350$)</span>
-                                    </li>
-                                    <li className="before:block flex items-center space-x-1">
-                                        <i className="i-mdi-checkbox-marked-outline text-primary-500 text-lg inline-block"></i>
-                                        <span>Curso básico de Alibaba (50,00$)</span>
-                                    </li>
-                                    <li className="before:block flex items-center space-x-1">
-                                        <i className="i-mdi-checkbox-marked-outline text-primary-500 text-lg inline-block"></i>
-                                        <span>Curso avanzado, importación ideal (150$)</span>
-                                    </li>
-                                    <li className="before:block flex items-center space-x-1">
-                                        <i className="i-mdi-checkbox-marked-outline text-primary-500 text-lg inline-block"></i>
-                                        <span>Cursos MKT, ventas y bonificaciones (50$)</span>
-                                    </li>
-                                </ul>
-                                <p className="text-primary-500 text-sm mt-8 flex items-start justify-start">
-                                    <i className="i-lucide-plus text-5xl"></i>
-                                    <span>Acceso al grupo exclusivo de importadores digitales y descuento en eventos presenciales</span>
-                                </p>
-                                <p className="text-lg md:text-3xl mt-8 font-bold text-secondary-900">550.000 GS.</p>
+                            <div className="px-8 py-12 bg-white bg-opacity-75 rounded-[25px] flex flex-col h-full">
+                                <h2 className="text-gray-900 title-font font-bold mb-3 text-lg md:text-3xl w-full space-x-4 flex items-center justify-center text-center uppercase">
+                                    <i className="i-mdi-checkbox-marked-outline text-primary-500 text-4xl "></i>
+                                    <span className="">Mentoria <br /> Presencial</span>
+                                </h2>
+                                <h4 className="text-gray-500 text-2xl uppercase font-medium text-center">¿De Que Se Trata?</h4>
+                                <p className="text-gray-800 text-center mt-2 font-medium">Asesoria para emprendedores que desean crear un departamento interno de desarrollo de productos y comercio exterior</p>
+                                <div className="mt-4">
+                                    <h4 className="text-lg uppercase font-bold text-primary-500 text-center">04 horas de contenido presencial</h4>
+                                    <p className="text-center text-primary-500">Asesoramiento mensual en proyectos de importación via zoom. Asesoria grupal.</p>
+                                </div>
+                                <div className="grid grid-cols-6 text-primary-500 mt-4">
+                                    <div className="col-span-1 flex flex-col items-center">
+                                        <i className="i-mdi-plus text-4xl font-bold" />
+                                        <span>PLUS</span>
+                                    </div>
+                                    <div className="col-span-5 text-xs font-bold flex items-center">
+                                        Beneficios exclusivo en servicios de importacion easy box: Descuento del 5% en servicio de flete aéreo y marítimo de china.
+                                    </div>
+                                </div>
+                                <p className="text-lg md:text-4xl mt-auto font-bold text-secondary-900 text-center pt-12">2.500.000 GS.</p>
                             </div>
                         </div>
                     </div>
