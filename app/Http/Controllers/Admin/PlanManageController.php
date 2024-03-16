@@ -40,7 +40,7 @@ class PlanManageController extends Controller
             'subscribers' => 'required|array',
             'subscribers.*' => 'exists:users,id',
         ]);
-        $plan->subscribers()->sync(request('subscribers'));
+        $plan->syncSubscribers(request('subscribers'));
         return redirect()->route('admin.plans')->with('flash.success', 'Plan de suscripción creado exitosamente.');
     }
     
@@ -65,7 +65,7 @@ class PlanManageController extends Controller
             'name' => request('name'),
             'description' => request('description')
         ]);
-        $plan->subscribers()->sync(request('subscribers'));
+        $plan->syncSubscribers(request('subscribers'));
         return redirect()->route('admin.plans')->with('flash.success', 'Plan de suscripción actualizado exitosamente.');
     }
     

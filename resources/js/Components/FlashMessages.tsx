@@ -4,15 +4,9 @@ import { useDialog } from "./Dialogs/DialogHooks"
 
 export default function FlashMessages({ messages }: { messages: Flash }) {
     const [flash, setFlash] = useState(messages)
-    const { confirm } = useDialog()
 
     useEffect(() => {
         setFlash(messages)
-
-        confirm({
-            title: 'Aviso',
-            description: 'Deseja realmente sair?',
-        })
     }, [messages])
 
     return (
