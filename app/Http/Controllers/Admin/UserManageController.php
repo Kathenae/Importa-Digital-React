@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\UserCreated;
 use App\Models\Plan;
 use App\Models\User;
 use App\Models\UserPermission;
@@ -30,8 +31,8 @@ class UserManageController extends Controller
     {
         $validatedData = request()->validate([
             'name' => 'required',
-            'email' => 'required',
-            'password' => 'required|confirmed',
+            'email' => 'required|unique:users,email',
+            'password' => 'required|min:6|max:255|confirmed',
             'password_confirmation' => 'required_with:password|same:password',
             'role' => 'required|in:admin,student',
             'plan_id' => 'required|exists:plans,id',
@@ -64,6 +65,12 @@ class UserManageController extends Controller
                         ['user_id' => $user->id, 'action' => 'watch@Lesson'],
                     ]);
                 }
+                
+                \Mail::to(request('email'))->send(new UserCreated([
+                    'email' => request('email'),
+                    'password' => request('password'),
+                    'link' => route('courses')
+                ]));
             });
         } catch (Exception $e) {
             \Log::error($e->getMessage());
