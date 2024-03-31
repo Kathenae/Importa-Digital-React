@@ -15,6 +15,14 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->default('');
+            $table->integer('durationYears')->default(2);
+            $table->string('type')->nullable();
+            $table->string('schedule')->nullable();
+            $table->string('headquarters')->nullable();
+            $table->text('candidateProfile')->nullable();
+            $table->string('coverUrl')->nullable();
+            $table->string('bannerUrl')->nullable();
+            $table->string('videoUrl')->nullable();
             $table->timestamps();
         });
     }
