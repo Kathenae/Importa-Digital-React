@@ -2,7 +2,11 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "dev": "vite",
+        "dev": "concurrently -k -n \"frontend,backend,mail\" -c \"yellow,red,green\" \"npm run frontend\" \"npm run backend\" \"npm run mail\"",
+        "frontend": "vite",
+        "backend": "php artisan serve",
+        "mail": "mailpit",
+        "refresh-db": "php artisan migrate:refresh && php artisan db:seed",
         "build": "tsc && vite build"
     },
     "devDependencies": {
@@ -16,6 +20,7 @@
         "@vitejs/plugin-react": "^4.0.3",
         "autoprefixer": "^10.4.12",
         "axios": "^1.1.2",
+        "concurrently": "^8.2.2",
         "laravel-vite-plugin": "^0.8.0",
         "postcss": "^8.4.18",
         "react": "^18.2.0",
@@ -28,6 +33,8 @@
         "@egoist/tailwindcss-icons": "^1.4.0",
         "@iconify/json": "^2.2.139",
         "clsx": "^2.0.0",
+        "embla-carousel-autoplay": "^8.0.0",
+        "embla-carousel-react": "^8.0.0",
         "tailwind-merge": "^2.0.0"
     }
 }

@@ -11,5 +11,10 @@ class CourseController extends Controller {
          'courses' => Course::all()->loadCount('lessons')
       ]);
    }
-   
+
+   public function show(int $course){
+      return Inertia::render('CourseDetail', [
+         'course' => $course
+      ]);
+   }
 }

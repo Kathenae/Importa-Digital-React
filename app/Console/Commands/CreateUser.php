@@ -18,7 +18,7 @@ class CreateUser extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Create a new user with some permission';
 
     /**
      * Execute the console command.
@@ -49,12 +49,19 @@ class CreateUser extends Command
                 ['user_id' => $user->id, 'action' => 'edit@User'],
                 ['user_id' => $user->id, 'action' => 'destroy@User'],
                 ['user_id' => $user->id, 'action' => 'destroyMany@User'],
+
                 ['user_id' => $user->id, 'action' => 'view@Lesson'],
                 ['user_id' => $user->id, 'action' => 'watch@Lesson'],
                 ['user_id' => $user->id, 'action' => 'create@Lesson'],
                 ['user_id' => $user->id, 'action' => 'edit@Lesson'],
                 ['user_id' => $user->id, 'action' => 'destroy@Lesson'],
                 ['user_id' => $user->id, 'action' => 'destroyMany@Lesson'],
+
+                ['user_id' => $user->id, 'action' => 'create@Course'],
+                ['user_id' => $user->id, 'action' => 'edit@Course'],
+                ['user_id' => $user->id, 'action' => 'view@Course'],
+                ['user_id' => $user->id, 'action' => 'destroy@Course'],
+                ['user_id' => $user->id, 'action' => 'destroyMany@Course'],
             ]);
         } elseif ($role === 'student') {
             \App\Models\UserPermission::insert([

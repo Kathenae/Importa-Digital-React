@@ -31,8 +31,10 @@ Route::get('/', [HomeController::class,'index'])
     ->name('home');
 
 Route::get('/cursos', [CourseController::class, 'index'])
-    ->middleware(['auth', 'allow:watch@Lesson'])
     ->name('courses');
+
+Route::get('/cursos/{course}', [CourseController::class, 'show'])
+    ->name('courses.show');
     
 Route::get('/cursos/{course}/aula', [LessonController::class,'index'])
     ->middleware(['auth', 'allow:watch@Lesson'])
