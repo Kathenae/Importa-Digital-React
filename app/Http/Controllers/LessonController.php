@@ -22,12 +22,8 @@ class LessonController extends Controller
     private function show_lesson(Course $course, int $lesson)
     {
         $user = request()->user();
-        if($user->plan == null)
-        {
-            return redirect()->route('home')->with('error', 'No plan');
-        }
         
-        if($course->plans()->where('plan_id', $user->plan->id)->exists() == false){
+        if($course->students()->where('user_id', $user->id)->exists() == false){
             return redirect()->route('courses')->with([
                 'popup.type' => 'alert',
                 'popup.message' => 'Parece que no estás suscrito a este curso, por favor contáctanos si deseas hacerlo',

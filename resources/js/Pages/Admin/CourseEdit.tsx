@@ -4,9 +4,8 @@ import { CourseForm } from "@/forms";
 import { Course, Lesson, PageProps, Plan } from "@/types";
 import { Head, Link } from "@inertiajs/react";
 
-export default function CourseCreate(props : PageProps & { course: Course, lessons: Lesson[], plans: Plan[]})
-{
-    const  { course, lessons, plans } = props
+export default function CourseCreate(props: PageProps & { course: Course, lessons: Lesson[] }) {
+    const { course, lessons } = props
     return (
         <Layout {...props}>
             <Head title="Administração" />
@@ -17,7 +16,7 @@ export default function CourseCreate(props : PageProps & { course: Course, lesso
                 <DynamicForm
                     method="post"
                     submitUrl={route('admin.courses.update', course.id)}
-                    inputs={CourseForm({course, lessons, plans})}
+                    inputs={CourseForm({ course })}
                 />
             </div>
         </Layout>

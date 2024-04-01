@@ -87,27 +87,31 @@ export function translate(value: string | boolean | number | null) {
         'admin': 'Administrador',
         'moderator': 'Moderador',
         'guest': 'Utilizador',
+        
+        'course': 'Curso',
+        'courses': 'Cursos',
 
         // Lesson
         'title': 'Titulo',
         'description': 'Descrição',
         'video': 'Vídeo',
         'videourl': 'Link do Vídeo',
-        'lesson_files': 'Conteudo Extra', 
+        'lesson_files': 'Conteudo Extra',
+        'lessons': 'Aulas',
+        
+        // Plan
+        'plan': 'Plano',
+        'plans': 'Planos',
+        'plan_id': 'Plano',
+        'subscribers': 'Suscriptores',
 
-        // Navigation
+        // General
         'next': 'Seguinte',
         'previous': 'Anterior',
-
         'true': 'Sim',
         'false': 'Não',
         'submit': 'Enviar',
         'cancel': 'Cancelar',
-        'plan': 'Plano',
-        'plans': 'Planos',
-        'subscribers': 'Suscriptores',
-        'plan_id': 'Plano',
-        'lessons': 'Aulas',
 
         // Permissions
         'permissions': 'Permissões',

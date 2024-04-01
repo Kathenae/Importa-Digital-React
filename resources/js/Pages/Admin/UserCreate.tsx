@@ -1,11 +1,11 @@
 import DynamicForm from "@/Components/DynamicForm";
 import Layout from "@/Layouts/Layout";
 import { UserForm } from "@/forms";
-import { PageProps, Plan } from "@/types";
+import { Course, PageProps, Plan } from "@/types";
 import { Head, Link } from "@inertiajs/react";
 
-export default function UserCreate(props: PageProps & { plans: Plan[]}) {
-    const { plans } = props
+export default function UserCreate(props: PageProps & { courses: Course[]}) {
+    const { courses } = props
     return (
         <Layout {...props}>
             <Head title="Administração" />
@@ -16,7 +16,7 @@ export default function UserCreate(props: PageProps & { plans: Plan[]}) {
                 <DynamicForm
                     method="post"
                     submitUrl={route('admin.users.store')}
-                    inputs={UserForm({ plans })}
+                    inputs={UserForm({ courses })}
                 />
             </div>
         </Layout>

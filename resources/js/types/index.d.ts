@@ -5,6 +5,7 @@ export interface User {
     email_verified_at: string;
     is_approved: boolean,
     plan?: Plan,
+    courses?: Course[]
 }
 
 export interface UserPermission{

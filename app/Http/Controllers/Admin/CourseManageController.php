@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\Lesson;
-use App\Models\Plan;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -25,7 +24,6 @@ class CourseManageController extends Controller
     {
         return Inertia::render('Admin/CourseCreate', [
             'lessons' => Lesson::query()->orderBy('created_at')->get(),
-            'plans' => Plan::query()->orderBy('created_at')->get()
         ]);
     }
     
@@ -34,10 +32,6 @@ class CourseManageController extends Controller
         request()->validate([
             'name' => 'required|string|max:255',
             'description' => 'string|max:255',
-            'lessons' => 'required|array',
-            'lessons.*' => 'exists:lessons,id',
-            'plans' => 'required|array',
-            'plans.*' => 'exists:plans,id'
         ]);
         
         $course = Course::query()->create([
@@ -45,17 +39,14 @@ class CourseManageController extends Controller
             'description' => request('description')
         ]);
         
-        $course->lessons()->sync(request('lessons'));
-        $course->plans()->sync(request('plans'));
         return redirect()->route('admin.courses')->with('flash.success', 'Curso creado exitosamente.');
     }
     
     public function edit(Course $course)
     {
         return Inertia::render('Admin/CourseEdit', [
-            'course' => $course->load('lessons', 'plans'),
+            'course' => $course->load('lessons'),
             'lessons' => Lesson::query()->orderBy('created_at')->get(),
-            'plans' => Plan::query()->orderBy('created_at')->get(),
         ]);
     }
     
@@ -64,10 +55,6 @@ class CourseManageController extends Controller
         request()->validate([
             'name' => 'required|string|max:255',
             'description' => 'string|max:255',
-            'lessons' => 'required|array',
-            'lessons.*' => 'exists:lessons,id',
-            'plans' => 'required|array',
-            'plans.*' => 'exists:plans,id'
         ]);
         
         $course->update([
@@ -75,8 +62,6 @@ class CourseManageController extends Controller
             'description' => request('description')
         ]);
         
-        $course->lessons()->sync(request('lessons'));
-        $course->plans()->sync(request('plans'));
         return redirect()->route('admin.courses')->with('flash.success', 'Curso actualizado exitosamente.');
     }
     

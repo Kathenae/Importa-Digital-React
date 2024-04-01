@@ -1,16 +1,16 @@
 import DynamicForm from "@/Components/DynamicForm";
 import Layout from "@/Layouts/Layout";
 import { UserForm } from "@/forms";
-import { PageProps, Plan, User } from "@/types";
+import { Course, PageProps, User } from "@/types";
 import { Head, Link } from "@inertiajs/react";
 
 interface UserEditProps extends PageProps {
     user: User
-    plans: Plan[]
+    courses: Course[]
 }
 
 export default function UserEdit(props: UserEditProps) {
-    const { user, plans } = props
+    const { user, courses } = props
     return (
         <Layout {...props}>
             <Head title="Administração" />
@@ -21,7 +21,7 @@ export default function UserEdit(props: UserEditProps) {
                 <DynamicForm
                     method="post"
                     submitUrl={route('admin.users.update', user.id)}
-                    inputs={UserForm({user, plans})}
+                    inputs={UserForm({user, courses})}
                 />
             </div>
         </Layout>
