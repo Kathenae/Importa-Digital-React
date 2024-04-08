@@ -1,5 +1,5 @@
 @component('mail::message')
-# Bienvenido a importa digital.
+# Bienvenido a {{env('APP_NAME')}}.
 
 La plataforma que te conecta al mundo del comercio internacional de forma practica y eficiente!
 

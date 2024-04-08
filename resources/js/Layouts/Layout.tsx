@@ -22,7 +22,7 @@ export default function Layout({ children, flash, popup, auth }: LayoutProps) {
 
     return (
         <div className="flex flex-col min-h-screen bg-white">
-            <Navbar />
+            <Navbar user={auth.user}/>
 
             {children}
 

@@ -13,6 +13,7 @@ class Lesson extends Model
         'title',
         'description',
         'videoUrl',
+        'courses',
     ];
     
     public function files()

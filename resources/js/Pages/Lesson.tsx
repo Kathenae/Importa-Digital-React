@@ -61,7 +61,7 @@ export default function LessonPage(props: LessonProps) {
                         </div>
                         <div className="flex flex-row items-center space-x-4">
                             <button onClick={handlePrevious} className="bg-primary-500 text-white py-2 px-4 rounded-md font-bold">Anterior</button>
-                            <button onClick={handleNext} className="bg-primary-500 text-white py-2 px-4 rounded-md font-bold">Próxima</button>
+                            <button onClick={handleNext} className="bg-primary-500 text-white py-2 px-4 rounded-md font-bold">Siguiente</button>
                         </div>
                     </div>
                 </div>
@@ -71,10 +71,10 @@ export default function LessonPage(props: LessonProps) {
                     <div className="flex-1 bg-white rounded-t-3xl shadow-xl py-4 md:py-12 px-6 md:x-16 md:min-h-[400px]">
                         <h1 className="text-xl md:text-4xl font-bold mb-8 text-primary-500">Aula {currentLessonIndex + 1}/{lessons.length} - {lessons[currentLessonIndex]?.title}</h1>
                         <p className="text-lg text-gray-500">{lessons[currentLessonIndex]?.description}</p>
-                        
+
                         {lessons[currentLessonIndex].files &&
                             <div className="mt-12">
-                                <h4 className="text-base md:text-4xl font-bold mb-4 text-primary-500">Conteudo Extra</h4>
+                                <h4 className="text-base md:text-4xl font-bold mb-4 text-primary-500">Contenido extra</h4>
                                 <ul className="list-disc list-inside">
                                     {lessons[currentLessonIndex].files?.map((file) => (
                                         <li key={file.id}><Link className="text-primary-600 hover:text-primary-500" href={file.full_url}>{file.filename}</Link></li>

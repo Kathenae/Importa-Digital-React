@@ -14,7 +14,7 @@ export default function Collapsable({ children, title }: CollapsableProps) {
                 type="button"
                 className="mb-4 flex items-center space-x-1" onClick={() => setOpen(!open)}
             >
-                <i className={cn("icon-[mdi--chevron-down] text-2xl transition", open ? 'rotate-0' : '-rotate-90')} />
+                <i className={cn("i-mdi-chevron-down text-2xl transition", open ? 'rotate-0' : '-rotate-90')} />
                 <h1 className="text-xl font-bold">{title}</h1>
             </button>
             <Transition

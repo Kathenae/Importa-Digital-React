@@ -30,15 +30,21 @@ Route::post('/chunked-upload', [ChunkedUploadController::class, 'post']);
 Route::get('/', [HomeController::class,'index'])
     ->name('home');
 
+Route::post('/contact', [HomeController::class, 'contact'])
+    ->name('contact');
+
 Route::get('/cursos', [CourseController::class, 'index'])
     ->name('courses');
 
+Route::post('/cursos/inscribir', [CourseController::class, 'subscribe'])
+    ->name('courses.subscribe');
+
+Route::get('/cursos/aulas', [LessonController::class,'index'])
+    ->middleware(['auth', 'allow:watch@Lesson'])
+    ->name('courses.lessons');
+
 Route::get('/cursos/{course}', [CourseController::class, 'show'])
     ->name('courses.show');
-    
-Route::get('/cursos/{course}/aula', [LessonController::class,'index'])
-    ->middleware(['auth', 'allow:watch@Lesson'])
-    ->name('lessons');
 
 Route::get('/video/stream/{lesson}', [VideoStreamController::class, 'stream'])
     ->middleware(['auth', 'allow:watch@Lesson'])
@@ -172,6 +178,14 @@ Route::get('/admin/courses/{course}/edit', [CourseManageController::class, 'edit
 Route::post('/admin/courses/{course}/edit', [CourseManageController::class, 'update'])
     ->middleware(['auth', 'allow:edit@Course'])
     ->name('admin.courses.update');
+
+Route::post('admin/courses/{course}/subject', [CourseManageController::class, 'createSubject'])
+    ->middleware(['auth', 'allow:edit@Course'])
+    ->name('admin.courses.createSubject');
+
+Route::delete('admin/courses/{course}/subject', [CourseManageController::class, 'destroySubject'])
+    ->middleware(['auth', 'allow:edit@Course'])
+    ->name('admin.courses.destroySubject');
 
 Route::delete('/admin/courses/{course}', [CourseManageController::class, 'destroy'])
     ->middleware(['auth', 'allow:destroy@Course'])

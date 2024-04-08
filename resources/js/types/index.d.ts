@@ -1,3 +1,5 @@
+import { DynamicFormInputs } from "@/Components/DynamicForm";
+
 export interface User {
     id: number;
     name: string;
@@ -27,6 +29,7 @@ export interface Lesson {
     description: string;
     videoUrl: string;
     files?: LessonFile[]
+    courses?: Course[]
 }
 
 export interface LessonFile{
@@ -40,8 +43,24 @@ export interface Course {
     id: number;
     name: string;
     description: string;
+    duration_years: number,
+    type: string | null,
+    schedule: string | null,
+    headquarters: string | null,
+    candidate_profile: string | null,
+    cover_url: string | null,
+    banner_url: string | null,
+    video_url: string | null,
     plans?: Plan[];
     lessons?: Lesson[];
+    subjects?: Subject[]
+}
+
+export interface Subject {
+    id: number,
+    course_id: number,
+    name: string,
+    year: number,
 }
 
 export type Flash = {
@@ -52,7 +71,9 @@ export type Flash = {
 
 export type Popup = {
     message: string;
-    type: 'alert' | 'confirm';
+    type: 'alert' | 'confirm' | 'ask' | 'form';
+    choices?: Record<string, string | number>;
+    form?: { title: string, url: string, method?: 'post' | 'put' | 'patch', inputs: DynamicFormInputs };
     variant: 'success' | 'warning' | 'danger' | 'info'
 }
 
@@ -63,5 +84,4 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
     };
     flash: Flash;
     popup?: Popup;
-    
 };

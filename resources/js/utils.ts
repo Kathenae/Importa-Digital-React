@@ -62,7 +62,6 @@ export function formatTransferRate(bytesPerSecond: number){
  * If the input string does not exist in the dictionary, it returns the input string as is.
  */
 export function translate(value: string | boolean | number | null) {
-
     if(value == null){
         return ''
     }
@@ -79,17 +78,31 @@ export function translate(value: string | boolean | number | null) {
         'id': 'ID',
 
         // User Credentials/Authentication
-        'name': 'Nome',
+        'name': 'Nombre',
         'email': 'Email',
+        'phone_number': 'Telefóno',
         'password': 'Palavra-passe',
         'password_confirmation': 'Confirme a Palavra-passe',
         'role': 'Função',
         'admin': 'Administrador',
         'moderator': 'Moderador',
         'guest': 'Utilizador',
-        
+
+        // Course
         'course': 'Curso',
         'courses': 'Cursos',
+        'duration_years': 'Duracion en años',
+        'type': 'Tipo',
+        'schedule': 'Horario de Clases',
+        'headquarters': 'Sede',
+        'candidate_profile': 'Perfil del engresado',
+        'cover_url': 'Imagem Capa',
+        'banner_url': 'Imagem Banner',
+        'video_url': 'Video',
+        'subjects': 'Topicos',
+
+        // Subject
+        'year': "Año",
 
         // Lesson
         'title': 'Titulo',
@@ -98,7 +111,7 @@ export function translate(value: string | boolean | number | null) {
         'videourl': 'Link do Vídeo',
         'lesson_files': 'Conteudo Extra',
         'lessons': 'Aulas',
-        
+
         // Plan
         'plan': 'Plano',
         'plans': 'Planos',

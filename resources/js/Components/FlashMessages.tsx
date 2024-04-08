@@ -1,6 +1,5 @@
 import { Flash } from "@/types"
 import { useEffect, useState } from "react"
-import { useDialog } from "./Dialogs/DialogHooks"
 
 export default function FlashMessages({ messages }: { messages: Flash }) {
     const [flash, setFlash] = useState(messages)
@@ -12,7 +11,7 @@ export default function FlashMessages({ messages }: { messages: Flash }) {
     return (
         <div className='fixed bottom-0 right-0 pointer-events-none p-4 space-y-2'>
             {flash.success &&
-                <div id='flash_success' className='relative bg-white px-4 py-2 rounded-lg w-[350px] pointer-events-auto fade-out'>
+                <div id='flash_success' className='relative bg-white px-4 py-2 rounded-lg w-[350px] pointer-events-auto fade-out shadow-lg'>
                     <button className='absolute right-2 top-3' onClick={() => setFlash({ ...flash, success: undefined })}>
                         <i className='i-lucide-x' />
                     </button>
@@ -21,7 +20,7 @@ export default function FlashMessages({ messages }: { messages: Flash }) {
                 </div>
             }
             {flash.error &&
-                <div id='flash_error' className='relative bg-white px-4 py-2 rounded-lg w-[350px] pointer-events-auto'>
+                <div id='flash_error' className='relative bg-white px-4 py-2 rounded-lg w-[350px] pointer-events-auto fade-out shadow-lg'>
                     <button className='absolute right-2 top-3' onClick={() => setFlash({ ...flash, error: undefined })}>
                         <i className='i-lucide-x' />
                     </button>
@@ -30,7 +29,7 @@ export default function FlashMessages({ messages }: { messages: Flash }) {
                 </div>
             }
             {flash.warning &&
-                <div id='flash_warning' className='relative bg-white px-4 py-2 rounded-lg w-[350px] pointer-events-auto'>
+                <div id='flash_warning' className='relative bg-white px-4 py-2 rounded-lg w-[350px] pointer-events-auto fade-out shadow-lg'>
                     <button className='absolute right-2 top-3' onClick={() => setFlash({ ...flash, warning: undefined })}>
                         <i className='i-lucide-x' />
                     </button>

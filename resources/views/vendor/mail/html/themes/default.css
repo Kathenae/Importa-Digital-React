@@ -232,11 +232,11 @@ img {
 
 .button-blue,
 .button-primary {
-    background-color: #f53e61;
-    border-bottom: 8px solid #f53e61;
-    border-left: 18px solid #f53e61;
-    border-right: 18px solid #f53e61;
-    border-top: 8px solid #f53e61;
+    background-color: #ed8504;
+    border-bottom: 8px solid #ed8504;
+    border-left: 18px solid #ed8504;
+    border-right: 18px solid #ed8504;
+    border-top: 8px solid #ed8504;
 }
 
 .button-green,
@@ -260,7 +260,7 @@ img {
 /* Panels */
 
 .panel {
-    border-left: #f53e61 solid 4px;
+    border-left: #ed8504 solid 4px;
     margin: 21px 0;
 }
 

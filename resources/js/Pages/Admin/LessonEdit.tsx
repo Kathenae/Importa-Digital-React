@@ -2,16 +2,17 @@ import DangerButton from "@/Components/DangerButton";
 import DynamicForm from "@/Components/DynamicForm";
 import Layout from "@/Layouts/Layout";
 import { LessonForm } from "@/forms";
-import { Lesson, PageProps } from "@/types";
+import { Course, Lesson, PageProps } from "@/types";
 import { translate } from "@/utils";
 import { Head, Link } from "@inertiajs/react";
 
 interface LessonEditProps extends PageProps {
-    lesson: Lesson
+    lesson: Lesson,
+    courses: Pick<Course, 'id' | 'name'>[]
 }
 
 export default function LessonEdit(props: LessonEditProps) {
-    const { lesson } = props
+    const { lesson, courses } = props
     return (
         <Layout {...props}>
             <Head title="Administração" />
@@ -25,18 +26,17 @@ export default function LessonEdit(props: LessonEditProps) {
                     showProgress
                     preserveScroll={true}
                     only={['lesson']}
-                    inputs={LessonForm(lesson)}
+                    inputs={LessonForm({lesson, courses})}
                 >
                     <div className="mt-4">
-                        
                         {lesson.files?.map(file => (
                             <div className="w-full flex items-center p-2 justify-between" key={file.id}>
                                 <span className="font-semibold text-lg">{file.filename}</span>
                                 <DangerButton type="button">
-                                    <Link 
-                                        href={route('admin.lessons.destroyFile', file.id)} 
-                                        method="delete" 
-                                        preserveState 
+                                    <Link
+                                        href={route('admin.lessons.destroyFile', file.id)}
+                                        method="delete"
+                                        preserveState
                                         preserveScroll
                                         only={['lesson']}
                                     >
@@ -46,7 +46,7 @@ export default function LessonEdit(props: LessonEditProps) {
                             </div>
                         ))}
                     </div>
-                </DynamicForm>                
+                </DynamicForm>
             </div>
         </Layout>
     )

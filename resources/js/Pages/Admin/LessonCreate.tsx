@@ -1,12 +1,12 @@
 import DynamicForm from "@/Components/DynamicForm";
 import Layout from "@/Layouts/Layout";
 import { LessonForm } from "@/forms";
-import { PageProps } from "@/types";
+import { Course, PageProps } from "@/types";
 import { Head, Link } from "@inertiajs/react";
 
-export default function LessonCreate(props : PageProps)
+export default function LessonCreate(props : PageProps<{courses: Pick<Course, 'id' | 'name'>[] }>)
 {
-    const  { } = props
+    const  { courses } = props
     return (
         <Layout {...props}>
             <Head title="Administração" />
@@ -18,7 +18,7 @@ export default function LessonCreate(props : PageProps)
                     method="post"
                     submitUrl={route('admin.lessons.store')}
                     showProgress
-                    inputs={LessonForm()}
+                    inputs={LessonForm({ courses })}
                 />
             </div>
         </Layout>

@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class UserCreated extends Mailable
+class SubscritionRequest extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -26,7 +26,7 @@ class UserCreated extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Bienvenido a '. env('APP_NAME').'.',
+            subject: 'Subscrition Request',
         );
     }
 
@@ -36,7 +36,7 @@ class UserCreated extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'emails.user-created',
+            markdown: 'emails.subscription-request',
         );
     }
 

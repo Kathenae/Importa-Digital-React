@@ -12,7 +12,7 @@ import DangerButton from "./DangerButton";
 import SecondaryButton from "./SecondaryButton";
 
 
-function canShow(input: FormInput, data: Record<string, any>) {
+function canShow(input: Pick<FormInput, 'showIf'>, data: Record<string, any>) {
     return (!input.showIf || input.showIf.inValues.includes(data[input.showIf.targetInput]))
 }
 
@@ -37,7 +37,8 @@ export interface FormInput {
     name: string,
     value: string | number | boolean  | any | undefined,
     showIf?: {targetInput: string, inValues: (string | null | undefined)[]},
-    type?: 'text' | 'checkbox' | 'password' | 'email' | 'number' | 'textarea' | 'file' | 'datetime-local' | 'date',
+    type?: 'text' | 'hidden' | 'checkbox' | 'password' | 'email' | 'number' | 'textarea' | 'file' | 'datetime-local' | 'date',
+    placeholder?: string,
     multiple?: boolean,
     accept?: string,
     hideLabel?: boolean,
@@ -57,7 +58,7 @@ function DynamicInput({ input, setData, onChange, value, errors }: DynamicInputP
     return (
         <div className={cn(input.type == 'checkbox' ? 'flex items-center justify-end flex-row-reverse' : '')}>
 
-            {!input.hideLabel &&
+            {!input.hideLabel && input.type !== 'hidden' &&
                 <InputLabel htmlFor={input.name} value={tr(input.name)} />
             }
 
@@ -90,6 +91,7 @@ function DynamicInput({ input, setData, onChange, value, errors }: DynamicInputP
                 input.type == 'textarea'?
                     <textarea
                         value={value}
+                        placeholder={input.placeholder}
                         onChange={(e) => {
                             setData(input.name, e.target.value)
                             if(onChange){
@@ -120,6 +122,7 @@ function DynamicInput({ input, setData, onChange, value, errors }: DynamicInputP
                     /> :
                     <TextInput
                         type={input.type ?? 'text'}
+                        placeholder={input.placeholder}
                         autoComplete="new-password"
                         name={input.name}
                         value={value ?? ''}
@@ -195,10 +198,26 @@ interface DynamicFormProps extends PropsWithChildren {
     showProgress?: boolean,
     preserveScroll?: boolean,
     only?: string[],
+    borderless?: boolean,
     onChange?: (input: FormInput, value: any) => void,
+    onSuccess?: () => void,
+    onError?: () => void
 }
 
-export default function DynamicForm({ inputs, submitUrl, method, multistep, showProgress, preserveScroll, only, children, onChange }: DynamicFormProps) {
+export default function DynamicForm({
+        inputs,
+        submitUrl,
+        method,
+        multistep,
+        showProgress,
+        preserveScroll,
+        only,
+        children,
+        borderless,
+        onChange,
+        onSuccess,
+        onError,
+}: DynamicFormProps) {
     const initialValues = inputs.reduce(reduceFormInputs, {} as Record<string, any>)
     const { data, setData, post, processing, progress, errors, reset, cancel } = useForm({...initialValues, _method: method} as Record<string, any>);
 
@@ -207,7 +226,12 @@ export default function DynamicForm({ inputs, submitUrl, method, multistep, show
 
     const submit= (e : FormEvent) => {
         e.preventDefault();
-        post(submitUrl, {preserveScroll, only: [...(only ?? []), 'errors', 'flash', 'popup']})
+        post(submitUrl, {
+            preserveScroll,
+            onSuccess: onSuccess,
+            onError: onError,
+            only: [...(only ?? []), 'errors', 'flash', 'popup']
+        })
     }
 
     const handleStep = (back = false) => {
@@ -244,7 +268,7 @@ export default function DynamicForm({ inputs, submitUrl, method, multistep, show
                     ))}
                 </div>
             }
-            <div className="rounded-lg px-4 py-4 bg-white shadow-lg">
+            <div className={cn("rounded-lg px-4 py-4 bg-white", !borderless && "shadow-lg")}>
                 <form onSubmit={submit} encType="multipart/form-data">
                     <div className="space-y-4">
                         {/* Render inputs but filter out the inactive InputGroups but only if the form is multistep */}

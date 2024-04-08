@@ -9,8 +9,18 @@ use Inertia\Inertia;
 
 class LessonController extends Controller
 {
-    public function index(Course $course)
+    public function index()
     {
+        $course = request()->user()->courses[0];
+        
+        if(!isset($course)){
+            return redirect()->route('courses')->with([
+                'popup.type' => 'alert',
+                'popup.message' => 'Lamentamos, no estás inscrito en ningún curso.',
+                'popup.variant' => 'info'
+            ]);
+        };
+
         return $this->show_lesson($course, 0);
     }
 
@@ -22,7 +32,7 @@ class LessonController extends Controller
     private function show_lesson(Course $course, int $lesson)
     {
         $user = request()->user();
-        
+
         if($course->students()->where('user_id', $user->id)->exists() == false){
             return redirect()->route('courses')->with([
                 'popup.type' => 'alert',
@@ -30,8 +40,15 @@ class LessonController extends Controller
                 'popup.variant' => 'info'
             ]);
         }
-        
+
         $lessons = $course->lessons->load('files');
+        if(count($lessons) == 0){
+            return redirect()->route('courses')->with([
+                'popup.type' => 'alert',
+                'popup.message' => "Lamentamos, el curso '" . $course->name . "' no tiene ninguna clase disponible en este momento. Por favor, inténtalo de nuevo más tarde.",
+                'popup.variant' => 'info'
+            ]);
+        }
 
         $lesson -= 1; # Since we want lecture 1 to refer to the first element of the array
 

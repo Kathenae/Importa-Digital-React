@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Course;
 use App\Models\Lesson;
 use App\Models\LessonFile;
 use Illuminate\Support\Facades\Storage;
@@ -19,7 +20,9 @@ class LessonManageController extends Controller
 
     public function create()
     {
-        return Inertia::render('Admin/LessonCreate');
+        return Inertia::render('Admin/LessonCreate', [
+            'courses' => Course::select(['id', 'name'])->get()
+        ]);
     }
 
     public function store()
@@ -31,6 +34,7 @@ class LessonManageController extends Controller
             'description' => request('description'),
             'videoUrl' => $videoUrl,
         ]);
+        $lesson->courses()->sync([request('course')]);
         $this->saveLessonFiles($lesson);
 
         return redirect()->route('admin.lessons.edit', $lesson->id)->with('flash.success', 'Lección creada exitosamente.');
@@ -39,7 +43,8 @@ class LessonManageController extends Controller
     public function edit(Lesson $lesson)
     {
         return Inertia::render('Admin/LessonEdit', [
-            'lesson' => $lesson->load('files')
+            'lesson' => $lesson->load(['files', 'courses']),
+            'courses' => Course::select(['id', 'name'])->get()
         ]);
     }
 
@@ -56,6 +61,7 @@ class LessonManageController extends Controller
         }
         
         $lesson->update($data);
+        $lesson->courses()->sync([request('course')]);
         $this->saveLessonFiles($lesson);
         
         return redirect()->back()->with('flash.success', 'Lección actualizada exitosamente.');
@@ -67,6 +73,7 @@ class LessonManageController extends Controller
             'title' => 'required|max:255',
             'description' => 'required|min:10|max:3000',
             'video' => request()->isMethod('POST')? 'required' : 'nullable' . '|mimetypes:video/avi,video/mpeg,video/quicktime,video/mp4',
+            'course' => 'required|exists:courses,id',
             'lesson_files' => 'nullable|array',
             'lesson_files.*' => 'file|mimes:pdf,png,docx,jpg,mp4'
         ]);

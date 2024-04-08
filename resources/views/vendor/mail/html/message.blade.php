@@ -2,7 +2,7 @@
 {{-- Header --}}
 <x-slot:header>
 <x-mail::header :url="config('app.url')">
-<img src="https://importadigital.com/logo.png" width="200px" alt="Laravel Logo">
+<img src="http://localhost:8000/logo.png" width="200px" alt="{{env('APP_NAME')}} Logo">
 </x-mail::header>
 </x-slot:header>
 

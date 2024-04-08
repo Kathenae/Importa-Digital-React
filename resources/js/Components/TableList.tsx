@@ -1,12 +1,13 @@
-import { translate as tr } from "@/utils";
+import { cn, translate as tr } from "@/utils";
 import Checkbox from "./Checkbox";
 import { useEffect, useState } from "react";
 
 interface TableListProps {
     columns: string[],
     items: Record<string, any>[],
+    borderless?: boolean,
     searchText?: string,
-    detailRoute: string,
+    detailRoute?: string,
     checkedItems?: Record<string, any>[]
     onCheck?: (item: Record<string, any>, checked: boolean) => void
 }
@@ -20,7 +21,7 @@ function getObjectAttribute(object: any, attributeName: string) {
     return value
 }
 
-export default function TableList({ columns, items, searchText, detailRoute, checkedItems, onCheck }: TableListProps) {
+export default function TableList({ columns, items, searchText, detailRoute, checkedItems, onCheck, borderless }: TableListProps) {
 
     const [filteredItems, setFilteredItems] = useState(items)
 
@@ -36,55 +37,62 @@ export default function TableList({ columns, items, searchText, detailRoute, che
                 return false;
             }))
         }
-        else{
+        else {
             setFilteredItems(items)
         }
     }, [searchText, items])
 
     return (
-        <div className="bg-white rounded-md shadow overflow-x-auto">
-            <table className="w-full whitespace-nowrap">
-                <thead>
-                    <tr className="text-left font-bold">
-                        {onCheck &&
-                            <th className="pb-4 pt-6 px-6">
-                                <i className="icon-[mdi--check]" />
-                            </th>
-                        }
-                        {columns.map((columnName, index) => (
-                            <th key={index} className="pb-4 pt-6 px-6" colSpan={columnName.indexOf(columnName) >= columns.length - 1 ? 2 : 1}>{tr(columnName)}</th>
-                        ))}
-                    </tr>
-                </thead>
-                <tbody>
-                    {filteredItems.map((item, index) => (
-                        <tr key={index} className="hover:bg-gray-100 focus-within:bg-gray-100">
+        <div className={cn("bg-white rounded-md overflow-x-auto", !borderless && 'shadow')}>
+            {filteredItems.length <= 0 ?
+                <div className="w-full flex items-center justify-center px-4 py-2 font-bold text-gray-400">No entries</div>
+                :
+                <table className="w-full whitespace-nowrap">
+                    <thead>
+                        <tr className="text-left font-bold">
                             {onCheck &&
-                                <td className="border-t px-6 py-4">
-                                    <Checkbox checked={checkedItems? checkedItems.includes(item) : undefined} onChange={(event) => onCheck(item, event.currentTarget.checked)} />
-                                </td>
+                                <th className="pb-4 pt-6 px-6">
+                                    <i className="icon-[mdi--check]" />
+                                </th>
                             }
-                            {columns.map((column, index) => (
-                                <td key={index} className="border-t">
-                                    <a className="flex items-center px-6 py-4 focus:text-primary-500" href={route(detailRoute, item.id)}>{tr(getObjectAttribute(item, column))}</a>
-                                </td>
+                            {columns.map((columnName, index) => (
+                                <th key={index} className="pb-4 pt-6 px-6" colSpan={columnName.indexOf(columnName) >= columns.length - 1 ? 2 : 1}>{tr(columnName)}</th>
                             ))}
-                            <td className="w-px border-t">
-                                <a className="flex items-center px-6 py-4" href={route(detailRoute, item.id)}>
-                                    <i className="icon-[mdi--chevron-right] text-2xl" />
-                                </a>
-                            </td>
                         </tr>
-                    ))}
-                    {filteredItems.length <= 0 &&
-                        <tr className="hover:bg-gray-100 focus-within:bg-gray-100">
-                            <td className="px-6 py-4 text-center text-gray-400 text-lg font-bold border-t" colSpan={columns.length}>
-                                <a href="">Nenhum dado encontrado</a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {filteredItems.map((item, index) => (
+                            <tr key={index} className="hover:bg-gray-100 focus-within:bg-gray-100">
+                                {onCheck &&
+                                    <td className="border-t px-6 py-4">
+                                        <Checkbox checked={checkedItems ? checkedItems.includes(item) : undefined} onChange={(event) => onCheck(item, event.currentTarget.checked)} />
+                                    </td>
+                                }
+                                {columns.map((column, index) => (
+                                    <td key={index} className="border-t">
+                                        {detailRoute ?
+                                            <a className="flex items-center px-6 py-4 focus:text-primary-500" href={route(detailRoute, item.id)}>{tr(getObjectAttribute(item, column))}</a>
+                                            :
+                                            <span className="flex items-center px-6 py-4 focus:text-primary-500">{tr(getObjectAttribute(item, column))}</span>
+                                        }
+                                    </td>
+                                ))}
+                                <td className="w-px border-t">
+                                    {detailRoute ?
+                                        <a className="flex items-center px-6 py-4" href={route(detailRoute, item.id)}>
+                                            <i className="icon-[mdi--chevron-right] text-2xl" />
+                                        </a>
+                                        :
+                                        <span className="flex items-center px-6 py-4">
+                                            <i className="icon-[mdi--chevron-right] text-2xl" />
+                                        </span>
+                                    }
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            }
         </div>
     )
 }

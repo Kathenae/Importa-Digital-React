@@ -12,10 +12,11 @@ export default function CourseCreate(props : PageProps & { lessons: Lesson[] })
             <Head title="Administração" />
             <div className="container pt-12 pb-32 mb-32">
                 <h1 className="text-4xl font-bold mb-8">
-                    <Link className="text-primary-500 underline" href={route('admin')}>Administração</Link> / <Link className="text-primary-500 underline" href={route('admin.lessons')}>Aulas</Link> / Novo Curso
+                    <Link className="text-primary-500 underline" href={route('admin')}>Administração</Link> / <Link className="text-primary-500 underline" href={route('admin.courses')}>Cursos</Link> / Novo Curso
                 </h1>
                 <DynamicForm
                     method="post"
+                    showProgress={true}
                     submitUrl={route('admin.courses.store')}
                     inputs={CourseForm({})}
                 />
