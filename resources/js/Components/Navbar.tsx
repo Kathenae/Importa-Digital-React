@@ -16,7 +16,7 @@ export const Navbar = ({ user }: { user?: User }) => {
       <button type='button' onClick={toggle} className='absolute top-7 right-4 transition hover:opacity-75 lg:hidden'>
         <i className='i-lucide-menu h-10 w-10' />
       </button>
-      <Link method={user ? 'post' : 'get'} href={user ? route('logout') : route('login')} className='absolute z-50 top-7 right-4 transition hover:opacity-75 hidden lg:flex items-center space-x-2 hover:cursor-pointer'>
+      <Link as='button' method={user ? 'post' : 'get'} href={user ? route('logout') : route('login')} className='absolute z-50 top-7 right-4 transition hover:opacity-75 hidden lg:flex items-center space-x-2 hover:cursor-pointer'>
         {user != null ?
           <>
             <i className='i-mdi-log-out h-10 w-10' />
@@ -51,7 +51,7 @@ export const Navbar = ({ user }: { user?: User }) => {
           <span className='block w-10 h-[4px] rounded-xl from-primary-base bg-gradient-to-br to-primary-accent' />
         </li>
         <li className='flex flex-col lg:items-center gap-y-2 hover:opacity-50 transition lg:hidden'>
-          <Link method={user ? 'post' : 'get'} href={user ? route('logout') : route('login')} className='line-clamp-1'>{user ? 'Salir' : 'Ingressar'}</Link>
+          <Link as='button' method={user ? 'post' : 'get'} href={user ? route('logout') : route('login')} className='line-clamp-1'>{user ? 'Salir' : 'Ingressar'}</Link>
           <span className='block w-10 h-[4px] rounded-xl from-primary-base bg-gradient-to-br to-primary-accent' />
         </li>
       </ul>

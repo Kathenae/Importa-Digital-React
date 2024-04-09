@@ -22,7 +22,7 @@ export default function Home(props: PageProps<{ courses: Pick<Course, 'id' | 'na
     const { data, setData, errors, post, processing } = useForm({
         name: '',
         email: '',
-        message: ''
+        message: '',
     });
 
     const { form } = usePopup()
@@ -87,7 +87,7 @@ export default function Home(props: PageProps<{ courses: Pick<Course, 'id' | 'na
                 </div>
 
                 <div className='w-full flex items-center justify-center mt-2 xl:hidden'>
-                    <a className="text-center font-bold text-gray-700 hover:underline" href="">Ver más cursos</a>
+                    <Link href={route('courses')} className="text-center font-bold text-gray-700 hover:underline">Ver más cursos</Link>
                 </div>
             </section>
 
@@ -105,7 +105,9 @@ export default function Home(props: PageProps<{ courses: Pick<Course, 'id' | 'na
                     <img className='ml-[100px] lg:ml-[230px]' width={54} src={Mark} />
                 </div>
                 <div className='w-full flex mt-12 gap-x-4'>
-                    <video controls src="/Tyto.mp4" className='object-cover aspect-video w-full bg-gray-500 rounded-xl' />
+                    <video controls className='object-cover aspect-video w-full bg-gray-500 rounded-xl'>
+                        <source src="/Tyto.mp4" />
+                    </video>
                 </div>
 
                 <div id="contacto" className='w-full mt-32 relative from-primary-base to-primary-accent bg-gradient-to-tr rounded-lg xl:from-transparent xl:to-transparent xl:bg-transparent'>
@@ -122,7 +124,7 @@ export default function Home(props: PageProps<{ courses: Pick<Course, 'id' | 'na
                             <InputError message={errors.email} />
                         </div>
                         <div className="w-full">
-                            <textarea onChange={(e) => setData('message', e.target.value)} className='border-gray-300 focus:border-primary-500 focus:ring-primary-500 rounded-md shadow-sm w-full py-1 mt-4' placeholder='Mensaje...'>{data.message}</textarea>
+                            <textarea value={data.message} onChange={(e) => setData('message', e.target.value)} className='border-gray-300 focus:border-primary-500 focus:ring-primary-500 rounded-md shadow-sm w-full py-1 mt-4' placeholder='Mensaje...' />
                             <InputError message={errors.message} />
                         </div>
                         <button disabled={processing} onClick={() => post(route('contact'))} className='ml-auto bg-secondary-base rounded-full text-white px-6 py-1 mt-2'>Enviar</button>
