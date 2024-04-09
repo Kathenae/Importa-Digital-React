@@ -104,24 +104,25 @@ export default function Home(props: PageProps<{ courses: Pick<Course, 'id' | 'na
 
                 <div id="contacto" className='w-full mt-32 relative from-primary-base to-primary-accent bg-gradient-to-tr rounded-lg xl:from-transparent xl:to-transparent xl:bg-transparent'>
                     <img src={Bg3} className='hidden xl:block' />
-                    <form className='w-full xl:w-[500px] h-full py-4 px-8 xl:absolute top-0 left-0 flex flex-col'>
-                        <h2 className='text-white text-4xl font-extrabold uppercase'>habla con nosotros</h2>
-                        <div className="w-full">
-                            <TextInput value={data.name} onChange={(e) => setData('name', e.target.value)} className='!rounded-full px-4 py-1 mt-2 w-full' placeholder='Nombre y apelidos...' />
-                            <InputError message={errors.name} />
+                    <form className='w-full h-full xl:absolute top-0 left-0 justify-center flex flex-col'>
+                        <h2 className='text-white px-8 xl:pl-20 text-4xl xl2:pl-32 xl2:text-[3rem] leading-[1] font-extrabold uppercase w-full xl:mb-1 xl2:mb-2'>habla con nosotros</h2>
+                        <div className="flex flex-col w-full pb-4 px-8 xl:pl-20 xl:pr-[400px] xl2:pl-32 xl2:pr-[450px] xl2:!text-lg">
+                            <div className="w-full">
+                                <TextInput value={data.name} onChange={(e) => setData('name', e.target.value)} className='!rounded-full px-4 py-1 mt-2 w-full xl2:!text-xl' placeholder='Nombre y apelidos...' />
+                                <InputError message={errors.name} />
+                            </div>
+                            <div className="w-full">
+                                <TextInput value={data.email} onChange={(e) => setData('email', e.target.value)} className='!rounded-full px-4 py-1 mt-2 w-full xl2:!text-xl' placeholder='Correo electrónico...' />
+                                <InputError message={errors.email} />
+                            </div>
+                            <div className="w-full">
+                                <textarea value={data.message} onChange={(e) => setData('message', e.target.value)} className='border-gray-300 focus:border-primary-500 focus:ring-primary-500 rounded-xl shadow-sm w-full py-1 mt-2 xl2:!text-xl' placeholder='Mensaje...' />
+                                <InputError message={errors.message} />
+                            </div>
+                            <button disabled={processing} onClick={() => post(route('contact'))} className='ml-auto bg-secondary-base rounded-full text-white px-12 py-1 mt-2 xl2:!text-2xl'>Enviar</button>
                         </div>
-
-                        <div className="w-full">
-                            <TextInput value={data.email} onChange={(e) => setData('email', e.target.value)} className='!rounded-full px-4 py-1 mt-2 w-full' placeholder='Correo electrónico...' />
-                            <InputError message={errors.email} />
-                        </div>
-                        <div className="w-full">
-                            <textarea value={data.message} onChange={(e) => setData('message', e.target.value)} className='border-gray-300 focus:border-primary-500 focus:ring-primary-500 rounded-xl shadow-sm w-full py-1 mt-2' placeholder='Mensaje...' />
-                            <InputError message={errors.message} />
-                        </div>
-                        <button disabled={processing} onClick={() => post(route('contact'))} className='ml-auto bg-secondary-base rounded-full text-white px-6 py-1 mt-2'>Enviar</button>
                     </form>
-                    <img className='absolute bottom-0 right-24 hidden xl:block' width={280} src={Hero} />
+                    <img className='absolute bottom-0 right-24 hidden xl:block w-[280px] xl2:w-[320px]' src={Hero} />
                 </div>
             </section>
         </Layout>

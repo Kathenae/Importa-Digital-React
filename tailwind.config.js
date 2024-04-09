@@ -14,6 +14,9 @@ export default {
 
     theme: {
         extend: {
+            screens: {
+                'xl2': '1536px', // Custom breakpoint
+            },
             fontFamily: {
                 sans: ['Manderley', ...defaultTheme.fontFamily.sans],
             },
