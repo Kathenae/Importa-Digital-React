@@ -1,6 +1,6 @@
 import Layout from "@/Layouts/Layout";
 import { Course, PageProps } from "@/types";
-import { Head, useForm } from "@inertiajs/react";
+import { Head, Link, useForm } from "@inertiajs/react";
 import Check from '@img/check.png';
 
 import Hero from '@img/Hero.png'
@@ -77,10 +77,13 @@ export default function Home(props: PageProps<{ courses: Pick<Course, 'id' | 'na
 
                 <div className='flex items-center justify-center w-full mt-12 relative'>
                     <a className='text-lg lg:text-3xl rounded-full font-bold px-14 py-1 from-primary-base to-primary-accent bg-gradient-to-br text-secondary-base hover:text-white transition' role="button" onClick={handleSubscribe}>¡Inscribite ya!</a>
-                    <a className="text-center font-bold text-gray-700 hover:underline group absolute right-4 top-2 xl:flex items-center space-x-2 hidden" href="">
+                    <Link
+                        href={route('courses')}
+                        className="text-center font-bold text-gray-700 hover:underline group absolute right-4 top-2 xl:flex items-center space-x-2 hidden"
+                    >
                         <span>Ver más cursos</span>
                         <i className='i-lucide-chevrons-right text-3xl scale-100 group-hover:scale-150 transform transition-all' />
-                    </a>
+                    </Link>
                 </div>
 
                 <div className='w-full flex items-center justify-center mt-2 xl:hidden'>
@@ -102,7 +105,7 @@ export default function Home(props: PageProps<{ courses: Pick<Course, 'id' | 'na
                     <img className='ml-[100px] lg:ml-[230px]' width={54} src={Mark} />
                 </div>
                 <div className='w-full flex mt-12 gap-x-4'>
-                    <video controls className='object-cover aspect-video w-full bg-gray-500 rounded-xl' />
+                    <video controls src="/Tyto.mp4" className='object-cover aspect-video w-full bg-gray-500 rounded-xl' />
                 </div>
 
                 <div id="contacto" className='w-full mt-32 relative from-primary-base to-primary-accent bg-gradient-to-tr rounded-lg xl:from-transparent xl:to-transparent xl:bg-transparent'>
