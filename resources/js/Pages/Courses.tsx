@@ -1,27 +1,11 @@
 import PrimaryButton from "@/Components/PrimaryButton";
 import Layout from "@/Layouts/Layout";
 import { Course, PageProps } from "@/types";
-import { Head, Link, router } from "@inertiajs/react";
-
+import { Head, Link } from "@inertiajs/react";
 import Capa1 from '@img/capa-1.png'
-import { usePopup } from "@/Components/Popup";
-import { reduceToRecord } from "@/utils";
+
 
 const CourseCard = ({ id, name, bg }: { id: number, name: string, bg: string }) => {
-   const { form } = usePopup()
-
-   const handleSubscribe = async () => {
-      form({
-         title: 'Inscribe ya!',
-         url: route('courses.subscribe'),
-         inputs: [
-            { name: 'name', type: 'text', value: '' },
-            { name: 'email', type: 'email', value: '' },
-            { name: 'phone_number', type: 'text', value: '' },
-            { name: 'course', type: 'hidden', value: id },
-         ]
-      })
-   }
 
    return (
       <>
@@ -34,13 +18,12 @@ const CourseCard = ({ id, name, bg }: { id: number, name: string, bg: string }) 
             </div>
 
             <div className='flex flex-col items-center justify-center w-full mt-4 relative'>
-               <a
-                  role="button"
-                  onClick={handleSubscribe}
+            <  Link
+                  href={route('courses.show', id)}
                   className='text-lg rounded-full font-bold px-14 py-1 group-hover:shadow-xl  from-primary-base to-primary-accent bg-gradient-to-br text-secondary-base hover:text-white transition'
                >
                      ¡Inscribite ya!
-               </a>
+               </Link>
                <Link href={route('courses.show', id)} className="text-sm mt-2 text-center font-bold text-gray-700 hover:underline group flex items-center space-x-2">
                   <span>Ver más información</span>
                   <i className='i-lucide-chevrons-right scale-150 transform transition-all' />
