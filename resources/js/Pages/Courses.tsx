@@ -1,7 +1,7 @@
 import PrimaryButton from "@/Components/PrimaryButton";
 import Layout from "@/Layouts/Layout";
 import { Course, PageProps } from "@/types";
-import { Head, Link } from "@inertiajs/react";
+import { Head, Link, router } from "@inertiajs/react";
 import Capa1 from '@img/capa-1.png'
 
 
@@ -10,7 +10,7 @@ const CourseCard = ({ id, name, bg }: { id: number, name: string, bg: string }) 
    return (
       <>
          <div className='flex flex-col items-center justify-center transform hover:scale-110 transition-transform group hover:cursor-pointer'>
-            <div className="relative">
+            <div className="relative" onClick={() => router.get(route('courses.show', id))}>
                <img src={bg} className="group-hover:shadow-xl "/>
                <h5 className='absolute bottom-0 text-xs left-0 w-full px-2 pb-4 uppercase font-semibold text-white text-center'>
                   {name}
@@ -58,7 +58,8 @@ export default function CoursesPage(props: PageProps & { courses: (Course & { le
                      <CourseCard
                         key={course.id}
                         id={course.id}
-                        bg={course.cover_url ?? Capa1} name={course.name}
+                        name={course.name}
+                        bg={course.cover_url ?? Capa1} 
                      />
                   ))}
                </div>
@@ -70,7 +71,12 @@ export default function CoursesPage(props: PageProps & { courses: (Course & { le
 
                <div className="w-full grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-x-12 lg:gap-y-16 mt-6">
                   {capacitaciones.map((course) => (
-                     <CourseCard id={course.id} bg={course.cover_url ?? Capa1} name={course.name} />
+                     <CourseCard 
+                        key={course.id}
+                        id={course.id}
+                        name={course.name}
+                        bg={course.cover_url ?? Capa1}
+                     />
                   ))}
                </div>
             </section>

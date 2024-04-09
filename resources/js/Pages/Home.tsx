@@ -16,6 +16,7 @@ import { usePopup } from "@/Components/Popup";
 import { reduceToRecord } from "@/utils";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
+import { SubscribePopupForm } from "@/forms";
 
 export default function Home(props: PageProps<{ courses: Pick<Course, 'id' | 'name'>[] }>) {
     const { courses } = props
@@ -27,16 +28,7 @@ export default function Home(props: PageProps<{ courses: Pick<Course, 'id' | 'na
 
     const { form } = usePopup()
     const handleSubscribe = async () => {
-        form({
-            title: 'Inscribe ya!',
-            url: route('courses.subscribe'),
-            inputs: [
-                { name: 'name', type: 'text', value: '' },
-                { name: 'email', type: 'email', value: '' },
-                { name: 'phone_number', type: 'text', value: '' },
-                { name: 'course', choices: reduceToRecord(courses, 'id', 'name'), value: courses[0].id },
-            ]
-        })
+        form(SubscribePopupForm({ courses }))
     }
 
     return (
@@ -59,17 +51,17 @@ export default function Home(props: PageProps<{ courses: Pick<Course, 'id' | 'na
 
                 <div className='w-full flex flex-col lg:flex-row mt-12 gap-x-4 gap-y-24'>
                     <div className='flex flex-col items-center'>
-                        <img src={Curso1} />
+                        <img className="hover:scale-110 transition-all" src={Curso1} />
                         <img className='mt-4' src={Check} width={24} />
                         <span className='font-bold text-center mt-2'>TÉCNICO SUPERIOR EN ELECTROMECANICA</span>
                     </div>
                     <div className='flex flex-col items-center'>
-                        <img src={Curso2} />
+                        <img className="hover:scale-110 transition-all" src={Curso2} />
                         <img className='mt-4' src={Check} width={24} />
                         <span className='font-bold text-center mt-2'>TÉCNICO SUPERIOR EN ELECTROMECANICA</span>
                     </div>
                     <div className='flex flex-col items-center'>
-                        <img src={Curso3} />
+                        <img className="hover:scale-110 transition-all" src={Curso3} />
                         <img className='mt-4' src={Check} width={24} />
                         <span className='font-bold text-center mt-2'>TÉCNICO SUPERIOR EN ELECTROMECANICA</span>
                     </div>
@@ -115,16 +107,16 @@ export default function Home(props: PageProps<{ courses: Pick<Course, 'id' | 'na
                     <form className='w-full xl:w-[500px] h-full py-4 px-8 xl:absolute top-0 left-0 flex flex-col'>
                         <h2 className='text-white text-4xl font-extrabold uppercase'>habla con nosotros</h2>
                         <div className="w-full">
-                            <TextInput value={data.name} onChange={(e) => setData('name', e.target.value)} className='rounded-full px-4 py-1 mt-4 w-full' placeholder='Nombre y apelidos...' />
+                            <TextInput value={data.name} onChange={(e) => setData('name', e.target.value)} className='!rounded-full px-4 py-1 mt-2 w-full' placeholder='Nombre y apelidos...' />
                             <InputError message={errors.name} />
                         </div>
 
                         <div className="w-full">
-                            <TextInput value={data.email} onChange={(e) => setData('email', e.target.value)} className='rounded-full px-4 py-1 mt-4 w-full' placeholder='Correo electrónico...' />
+                            <TextInput value={data.email} onChange={(e) => setData('email', e.target.value)} className='!rounded-full px-4 py-1 mt-2 w-full' placeholder='Correo electrónico...' />
                             <InputError message={errors.email} />
                         </div>
                         <div className="w-full">
-                            <textarea value={data.message} onChange={(e) => setData('message', e.target.value)} className='border-gray-300 focus:border-primary-500 focus:ring-primary-500 rounded-md shadow-sm w-full py-1 mt-4' placeholder='Mensaje...' />
+                            <textarea value={data.message} onChange={(e) => setData('message', e.target.value)} className='border-gray-300 focus:border-primary-500 focus:ring-primary-500 rounded-xl shadow-sm w-full py-1 mt-2' placeholder='Mensaje...' />
                             <InputError message={errors.message} />
                         </div>
                         <button disabled={processing} onClick={() => post(route('contact'))} className='ml-auto bg-secondary-base rounded-full text-white px-6 py-1 mt-2'>Enviar</button>

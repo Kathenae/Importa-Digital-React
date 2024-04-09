@@ -19,7 +19,8 @@ class CourseController extends Controller
    public function show(Course $course)
    {
       return Inertia::render('CourseDetail', [
-         'course' => $course->load('subjects')
+         'course' => $course->load('subjects'),
+         'courses' => Course::select(['id', 'name'])->get(),
       ]);
    }
 

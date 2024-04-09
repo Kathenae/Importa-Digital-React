@@ -76,3 +76,16 @@ export function SubjectForm({ subject }: { subject?: Subject }): DynamicFormInpu
         { name: 'year', type: 'number', value: subject?.year ?? '' },
     ]
 }
+
+export function SubscribePopupForm({courses, selectedCourse }: {courses: Pick<Course, 'id' | 'name'>[], selectedCourse?: number}) {
+    return {
+        title: 'Inscribe ya!',
+        url: route('courses.subscribe'),
+        inputs: ([
+            { name: 'name', type: 'text', value: '' },
+            { name: 'email', type: 'email', value: '' },
+            { name: 'phone_number', type: 'text', value: '' },
+            { name: 'course', choices: reduceToRecord(courses, 'id', 'name'), value: selectedCourse ?? courses[0].id},
+        ]) as DynamicFormInputs
+    }
+}

@@ -8,11 +8,12 @@ import Mark from '@img/mark.png';
 import bg from '@img/bg-4.png';
 import Bg1 from '@img/bg-1.png';
 import { usePopup } from '@/Components/Popup';
+import { SubscribePopupForm } from '@/forms';
 
 
 
-export default function CourseDetailPage(props: PageProps & { course: Course }) {
-   const { course } = props;
+export default function CourseDetailPage(props: PageProps & { course: Course, courses: Pick<Course, 'id' | 'name'>[] }) {
+   const { course, courses } = props;
    const years = course.subjects?.reduce((acc, subject) => {
       if (acc instanceof Array) {
          if (acc.includes(subject.year) === false) {
@@ -26,16 +27,7 @@ export default function CourseDetailPage(props: PageProps & { course: Course }) 
    const { form } = usePopup()
 
    const handleSubscribe = async () => {
-      form({
-         title: 'Inscribe ya!',
-         url: route('courses.subscribe'),
-         inputs: [
-            { name: 'name', type: 'text', value: '' },
-            { name: 'email', type: 'email', value: '' },
-            { name: 'phone_number', type: 'text', value: '' },
-            { name: 'course', type: 'hidden', value: course.id },
-         ]
-      })
+      form(SubscribePopupForm({courses, selectedCourse: course.id}))
    }
 
    return (
@@ -74,11 +66,11 @@ export default function CourseDetailPage(props: PageProps & { course: Course }) 
 
             <div className='mt-12'>
                <div className='flex space-x-2 lg:px-12'>
-                  <div role='button' onClick={() => setActiveTab(0)} className={`px-4 py-1 transition font-medium rounded-t-xl line-clamp-1 text-lg lg:w-56 text-center hover:text-white hover:bg-secondary-base hover:cursor-pointer ${activeTab === 0 ? 'bg-secondary-base text-white w-full' : 'bg-gray-200 text-gray-600 w-32'}`} >
+                  <div role='button' onClick={() => setActiveTab(0)} onMouseOver={() => setActiveTab(0)} className={`px-4 py-1 transition font-medium rounded-t-xl line-clamp-1 text-lg lg:w-56 text-center hover:text-white hover:bg-secondary-base hover:cursor-pointer ${activeTab === 0 ? 'bg-secondary-base text-white w-full' : 'bg-gray-200 text-gray-600 w-32'}`} >
                      Perfil del engresado
                   </div>
                   {course.subjects && course.subjects.length > 0 ?
-                     <div role='button' onClick={() => setActiveTab(1)} className={`px-4 py-1 transition font-medium rounded-t-xl line-clamp-1 text-lg lg:w-56 text-center hover:text-white hover:bg-secondary-base hover:cursor-pointer ${activeTab === 1 ? 'bg-secondary-base text-white w-full' : 'bg-gray-200 text-gray-600 w-32'}`} >
+                     <div role='button' onClick={() => setActiveTab(1)} onMouseOver={() => setActiveTab(1)} className={`px-4 py-1 transition font-medium rounded-t-xl line-clamp-1 text-lg lg:w-56 text-center hover:text-white hover:bg-secondary-base hover:cursor-pointer ${activeTab === 1 ? 'bg-secondary-base text-white w-full' : 'bg-gray-200 text-gray-600 w-32'}`} >
                         Malla Curricular
                      </div> : <></>
                   }
@@ -94,7 +86,7 @@ export default function CourseDetailPage(props: PageProps & { course: Course }) 
                         <div className='lg:grid grid-cols-3 gap-10 hidden'>
                            <div>
                               {years.map((year, i) => (
-                                 <div key={i} role='button' onClick={() => setActiveYear(year)} className='h-48 transition-all flex items-center justify-end relative mb-4 cursor-pointer hover:bg-gray-100'>
+                                 <div key={i} role='button' onClick={() => setActiveYear(year)} onMouseOver={() => setActiveYear(year)} className='h-48 transition-all flex items-center justify-end relative mb-4 cursor-pointer hover:bg-gray-100'>
                                     <span className='text-lg font-bold text-gray-500 mr-2'>{year} Curso</span>
                                     {activeYear === year && <div className='w-1.5 h-full rounded-xl bg-[#ecaf4f]' />}
                                  </div>
