@@ -45,7 +45,7 @@ export default function LessonPage(props: LessonProps) {
                     {/* Video player */}
                     <div className="aspect-video">
                         <video key={currentLessonIndex} className="w-full h-full" controls controlsList="nodownload">
-                            <source src={route('video.stream', lessons[currentLessonIndex].id)} type="video/mp4" />
+                            <source src={lessons[currentLessonIndex].videoUrl.startsWith("http")? lessons[currentLessonIndex].videoUrl : route('video.stream', lessons[currentLessonIndex].id)} type="video/mp4" />
                         </video>
                     </div>
 
