@@ -1,6 +1,6 @@
 import Layout from "@/Layouts/Layout";
 import { Course, PageProps } from "@/types";
-import { Head, Link, useForm } from "@inertiajs/react";
+import { Head, Link, router, useForm } from "@inertiajs/react";
 import Check from '@img/check.png';
 
 import Hero from '@img/Hero.png'
@@ -50,18 +50,18 @@ export default function Home(props: PageProps<{ courses: Pick<Course, 'id' | 'na
                 </div>
 
                 <div className='w-full flex flex-col lg:flex-row mt-12 gap-x-4 gap-y-24'>
-                    <div className='flex flex-col items-center'>
-                        <img className="hover:scale-110 transition-all" src={Curso1} />
+                    <div className='flex flex-col items-center hover:scale-110 transition-all cursor-pointer' onClick={() => router.get(route('courses'))}>
+                        <img className="" src={Curso1}/>
                         <img className='mt-4' src={Check} width={24} />
                         <span className='font-bold text-center mt-2'>TÉCNICO SUPERIOR EN ELECTROMECANICA</span>
                     </div>
-                    <div className='flex flex-col items-center'>
-                        <img className="hover:scale-110 transition-all" src={Curso2} />
+                    <div className='flex flex-col items-center hover:scale-110 transition-all cursor-pointer' onClick={() => router.get(route('courses'))}>
+                        <img className="" src={Curso2}/>
                         <img className='mt-4' src={Check} width={24} />
                         <span className='font-bold text-center mt-2'>TÉCNICO SUPERIOR EN ELECTROMECANICA</span>
                     </div>
-                    <div className='flex flex-col items-center'>
-                        <img className="hover:scale-110 transition-all" src={Curso3} />
+                    <div className='flex flex-col items-center hover:scale-110 transition-all cursor-pointer' onClick={() => router.get(route('courses'))}>
+                        <img className="" src={Curso3}/>
                         <img className='mt-4' src={Check} width={24} />
                         <span className='font-bold text-center mt-2'>TÉCNICO SUPERIOR EN ELECTROMECANICA</span>
                     </div>
