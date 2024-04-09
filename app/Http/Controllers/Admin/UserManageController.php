@@ -35,15 +35,14 @@ class UserManageController extends Controller
             'password' => 'required|min:6|max:255|confirmed',
             'password_confirmation' => 'required_with:password|same:password',
             'role' => 'required|in:admin,student',
-            'courses' => 'required|array',
-            'courses.*' => 'exists:courses,id'
+            'course' => 'required|exists:courses,id'
         ]);
 
         $validatedData['password'] = Hash::make($validatedData['password']);
         try {
             \DB::transaction(function () use ($validatedData) {
                 $user = User::create($validatedData);
-                $user->courses()->sync(request('courses'));
+                $user->courses()->sync([request('course')]);
 
                 if ($validatedData['role'] === 'admin') {
                     UserPermission::insert([
@@ -97,8 +96,7 @@ class UserManageController extends Controller
             'email' => 'required',
             'password' => 'nullable|confirmed',
             'password_confirmation' => 'required_with:password|same:password',
-            'courses' => 'required|array',
-            'courses.*' => 'exists:courses,id'
+            'course' => 'required|exists:courses,id'
         ]);
 
         if ($validatedData['password'] !== null) {
@@ -108,7 +106,7 @@ class UserManageController extends Controller
         }
 
         $user->update($validatedData);
-        $user->courses()->sync(request('courses'));
+        $user->courses()->sync([request('course')]);
         return redirect()->route('admin.users')->with('flash.success', 'Utilizador atualizado exitosamente');
     }
 

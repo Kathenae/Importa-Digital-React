@@ -9,7 +9,7 @@ export function UserForm({ user, courses }: { user?: User, courses: Course[] }):
         { name: 'password', type: 'password', value: '' },
         { name: 'password_confirmation', type: 'password', value: '' },
         { name: 'role', choices: { 'admin': 'Super Admin', 'student': 'Estudante' }, value: 'student' },
-        { name: 'courses', value: user?.courses?.map(l => l.id) ?? [], choices: reduceToRecord(courses, 'id', 'name') },
+        { name: 'course', value: user?.courses && user.courses[0] ? user.courses[0].id : courses[0].id, choices: reduceToRecord(courses, 'id', 'name') },
     ]
 }
 
@@ -19,7 +19,7 @@ export function LessonForm({ lesson, courses }: { lesson?: Lesson, courses: Pick
         { name: 'description', type: 'textarea', value: lesson?.description ?? '' },
         { name: 'video', type: 'file', accept: 'video/*', value: '' },
         { name: 'lesson_files', type: 'file', multiple: true, value: '' },
-        { name: 'course', choices: reduceToRecord(courses, 'id', 'name'), value: lesson?.courses ? lesson.courses[0].id : courses[0].id },
+        { name: 'course', choices: reduceToRecord(courses, 'id', 'name'), value: lesson?.courses && lesson.courses[0] ? lesson.courses[0].id : courses[0].id },
     ]
 }
 

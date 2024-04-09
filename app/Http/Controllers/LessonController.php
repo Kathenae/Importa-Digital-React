@@ -11,9 +11,8 @@ class LessonController extends Controller
 {
     public function index()
     {
-        $course = request()->user()->courses[0];
-        
-        if(!isset($course)){
+        $courses = request()->user()->courses;
+        if(!isset($courses[0])){
             return redirect()->route('courses')->with([
                 'popup.type' => 'alert',
                 'popup.message' => 'Lamentamos, no estás inscrito en ningún curso.',
@@ -21,7 +20,7 @@ class LessonController extends Controller
             ]);
         };
 
-        return $this->show_lesson($course, 0);
+        return $this->show_lesson($courses[0], 0);
     }
 
     public function show(Course $course, int $lesson)

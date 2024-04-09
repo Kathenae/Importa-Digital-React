@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
             $course->lessons()->attach($lessons);
         })->createMany([
             [
-                "name" => "técnico superior en electromecánica",
+                "name" => "Técnico superior en electromecánica",
                 "type" => "tecnicatura",
                 "cover_url" => "/capa-1.png",
             ],
