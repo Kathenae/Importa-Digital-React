@@ -12,7 +12,7 @@ export const Navbar = ({ user }: { user?: User }) => {
 
   return (
     <nav className='flex items-center justify-center relative z-50 h-44 bg-secondary-base text-white'>
-      <Link href={route('home')}>
+      <Link href={route('home')} className='relative lg:z-10'>
         <img src={Logo} width={120} height={120} alt='logo' />
       </Link>
       <button type='button' onClick={toggle} className='absolute top-7 right-4 transition hover:opacity-75 lg:hidden'>
