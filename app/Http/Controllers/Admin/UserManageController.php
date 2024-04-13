@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\Popup;
+use App\Helpers\Toast;
 use App\Http\Controllers\Controller;
 use App\Mail\UserCreated;
 use App\Models\Course;
@@ -10,9 +12,14 @@ use App\Models\UserPermission;
 use Exception;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
+use Log;
+use Mail;
 
 class UserManageController extends Controller
 {
+    const RESULT_OK = 0;
+    const RESULT_ERROR = 1;
+    
     public function index()
     {
         return Inertia::render('Admin/Users', [
@@ -39,6 +46,7 @@ class UserManageController extends Controller
         ]);
 
         $validatedData['password'] = Hash::make($validatedData['password']);
+        $email_result = self::RESULT_OK;
         try {
             \DB::transaction(function () use ($validatedData) {
                 $user = User::create($validatedData);
@@ -66,19 +74,37 @@ class UserManageController extends Controller
                         ['user_id' => $user->id, 'action' => 'watch@Lesson'],
                     ]);
                 }
-                
-                \Mail::to(request('email'))->send(new UserCreated([
-                    'email' => request('email'),
-                    'password' => request('password'),
-                    'link' => route('courses')
-                ]));
             });
+            $email_result = $this->notifyUserCreated(request('email'), request('password'), route('courses'));
         } catch (Exception $e) {
-            \Log::error($e->getMessage());
+            Log::error($e->getMessage());
             return back()->with(['flash.error' => 'Ocurrió un error al crear el usuario.']);
         }
 
-        return redirect()->route('admin.users')->with('flash.success', 'Utilizador creado exitosamente');
+        if($email_result == self::RESULT_OK){
+            $msg = "Utilizador creado exitosamente.";
+            return redirect()->route('admin.users')->with(Toast::success($msg));
+        }
+        else
+        {
+            $msg = "La cuenta de usuario ha sido creada, pero hubo un problema al enviar el correo electrónico al usuario. Por favor, asegúrese de enviarles un correo electrónico informándoles sus credenciales de inicio de sesión.";
+            return redirect()->route('admin.users')->with(Popup::info($msg));
+        }
+    }
+
+    private function notifyUserCreated($email, $password, $link){
+        try {
+            Mail::to($email)->send(new UserCreated([
+                'email' => $email,
+                'password' => $password,
+                'link' => $link
+            ]));
+            return self::RESULT_OK;
+        }
+        catch(Exception $e) {
+            Log::error($e->getMessage());
+            return self::RESULT_ERROR;
+        }
     }
 
     public function edit(User $user)
@@ -107,7 +133,7 @@ class UserManageController extends Controller
 
         $user->update($validatedData);
         $user->courses()->sync([request('course')]);
-        return redirect()->route('admin.users')->with('flash.success', 'Utilizador atualizado exitosamente');
+        return redirect()->route('admin.users')->with(Toast::success('Utilizador atualizado exitosamente'));
     }
 
     public function approve()
@@ -129,10 +155,10 @@ class UserManageController extends Controller
             });
         } catch (Exception $e) {
             \Log::error($e->getMessage());
-            return back()->with(['flash.error' => 'Ocurrió un error.']);
+            return back()->with(Toast::error('Ocurrió un error.'));
         }
 
-        return redirect()->back()->with('flash.sucess', 'Permiciones alteradas exitosamente.');
+        return redirect()->back()->with(Toast::success('Permiciones alteradas exitosamente.'));
     }
 
     public function unapprove()
@@ -153,17 +179,17 @@ class UserManageController extends Controller
             });
         } catch (Exception $e) {
             \Log::error($e->getMessage());
-            return back()->with(['flash.error' => 'Ocurrió un error.']);
+            return back()->with(Toast::error('Ocurrió un error.'));
         }
 
-        return redirect()->back()->with('flash.sucess', 'Permiciones alteradas exitosamente.');
+        return redirect()->back()->with(Toast::success("Permiciones alteradas exitosamente."));
     }
 
     public function destroy(User $user)
     {
         $user->delete();
 
-        return redirect()->back()->with('flash.success', 'Utilizador eliminado exitosamente.');
+        return redirect()->back()->with(Toast::success('Utilizador eliminado exitosamente.'));
     }
 
     public function destroyMany()
@@ -176,6 +202,6 @@ class UserManageController extends Controller
         $ids = request('ids');
         User::whereIn('id', $ids)->delete();
 
-        return redirect()->back()->with('flash.success', 'Todos los utilizadores selecionados han sido eliminados.');
+        return redirect()->back()->with(Toast::success('Todos los utilizadores selecionados han sido eliminados.'));
     }
 }
