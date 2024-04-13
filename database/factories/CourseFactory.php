@@ -32,7 +32,7 @@ class CourseFactory extends Factory
             • Aplicar Leyes, Normas y Reglamentos de Seguridad Laboral en una empresa o industria.",
             "cover_url" => "/capa-".rand(1, 9).".png",
             "banner_url" => "/bg-4.png",
-            "video_url" => "/Tyto.mp4",
+            "video_url" => "/storage/Tyto.mp4",
         ];
     }
 }

@@ -98,7 +98,7 @@ export default function Home(props: PageProps<{ courses: Pick<Course, 'id' | 'na
                 </div>
                 <div className='w-full flex mt-12 gap-x-4'>
                     <video controls className='object-cover aspect-video w-full bg-gray-500 rounded-xl'>
-                        <source src="/Tyto.mp4" />
+                        <source src="/storage/Tyto.mp4" />
                     </video>
                 </div>
 

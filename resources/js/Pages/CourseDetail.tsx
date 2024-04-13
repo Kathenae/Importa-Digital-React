@@ -121,7 +121,7 @@ export default function CourseDetailPage(props: PageProps & { course: Course, co
 
          <div className="w-full bg-gray-200 py-12 hidden lg:block">
             <div className='container mx-auto flex mt-12 gap-x-4'>
-               <video controls src={course.video_url ?? ''} className='object-cover aspect-video w-full bg-gray-500 rounded-xl' />
+               <video controls src={course.video_url ?? '/storage/Tyto.mp4'} className='object-cover aspect-video w-full bg-gray-500 rounded-xl' />
             </div>
          </div>
 
