@@ -7,13 +7,9 @@ export interface User {
     email_verified_at: string;
     is_approved: boolean,
     plan?: Plan,
-    courses?: Course[]
-}
-
-export interface UserPermission{
-    id: number;
-    action: string;
-    user_id: string;
+    courses?: Course[],
+    role: string,
+    permissions: string[],
 }
 
 export interface Plan {
@@ -80,7 +76,6 @@ export type Popup = {
 export type PageProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {
     auth: {
         user: User;
-        permissions?: string[];
     };
     flash: Flash;
     popup?: Popup;

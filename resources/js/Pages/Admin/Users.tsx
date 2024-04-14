@@ -7,16 +7,14 @@ import SecondaryButton from "@/Components/SecondaryButton";
 import TableList from "@/Components/TableList";
 import TextInput from "@/Components/TextInput";
 import Layout from "@/Layouts/Layout";
-import { PageProps, User, UserPermission } from "@/types";
+import { PageProps, User } from "@/types";
 import { translate } from "@/utils";
 import { Transition } from "@headlessui/react";
 import { Head, Link, router } from "@inertiajs/react";
 import { useState } from "react";
 
 interface UsersProps extends PageProps {
-    users: User & {
-        permissions: UserPermission[];
-    }[]
+    users: User[]
 }
 
 export default function Users(props: UsersProps) {

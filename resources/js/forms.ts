@@ -8,7 +8,7 @@ export function UserForm({ user, courses }: { user?: User, courses: Course[] }):
         { name: 'email', type: 'email', value: user?.email ?? '' },
         { name: 'password', type: 'password', value: '' },
         { name: 'password_confirmation', type: 'password', value: '' },
-        { name: 'role', choices: { 'admin': 'Super Admin', 'student': 'Estudante' }, value: 'student' },
+        { name: 'role', choices: { 'super-admin': 'Super Admin', 'teacher': 'Professor', 'student': 'Estudante' }, value: user?.role ?? 'student' },
         { name: 'course', value: user?.courses && user.courses[0] ? user.courses[0].id : courses[0].id, choices: reduceToRecord(courses, 'id', 'name') },
     ]
 }

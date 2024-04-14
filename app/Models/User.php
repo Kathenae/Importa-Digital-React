@@ -30,6 +30,11 @@ class User extends Authenticatable
         'is_approved',
         'plan_id',
     ];
+    
+    protected $appends = [
+        'role',
+        'permissions',
+    ];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -39,6 +44,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'roles',
     ];
 
     /**
@@ -51,6 +57,23 @@ class User extends Authenticatable
         'password' => 'hashed',
         'is_approved' => 'boolean',
     ];
+
+    public function getRoleAttribute() {
+        $roles = $this->getRoleNames();
+        if(count($roles) == 0){
+            return '';
+        }
+        return $roles[0];
+    }
+
+    public function getPermissionsAttribute(){
+        $role = $this->roles()->where('name', $this->role)->first();
+        if($role == null){
+            return [];
+        }
+
+        return $role->getPermissionNames();
+    }
 
     public function plan()
     {
