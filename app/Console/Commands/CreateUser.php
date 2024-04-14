@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\User;
 use Illuminate\Console\Command;
 
 class CreateUser extends Command
@@ -29,47 +30,21 @@ class CreateUser extends Command
         $name = $this->ask('Name');
         $email = $this->ask('Email');
         $password = $this->secret('Password');
-        $role = $this->choice('Role', ['admin', 'student']);
+        $role = $this->choice('Role', [
+            User::SUPER_ADMIN,
+            User::MODERATOR,
+            User::TEACHER,
+            User::STUDENT
+        ]);
 
         // create the user
-        $user = \App\Models\User::create([
+        $user = User::create([
             'name' => $name,
             'email' => $email,
             'password' => \Illuminate\Support\Facades\Hash::make($password),
             'is_approved' => true,
         ]);
-
-        // create the permissions
-        if ($role === 'admin') {
-            \App\Models\UserPermission::insert([
-                ['user_id' => $user->id, 'action' => 'view-admin-dashboard'],
-                ['user_id' => $user->id, 'action' => 'view@User'],
-                ['user_id' => $user->id, 'action' => 'view@User'],
-                ['user_id' => $user->id, 'action' => 'create@User'],
-                ['user_id' => $user->id, 'action' => 'edit@User'],
-                ['user_id' => $user->id, 'action' => 'destroy@User'],
-                ['user_id' => $user->id, 'action' => 'destroyMany@User'],
-
-                ['user_id' => $user->id, 'action' => 'view@Lesson'],
-                ['user_id' => $user->id, 'action' => 'watch@Lesson'],
-                ['user_id' => $user->id, 'action' => 'create@Lesson'],
-                ['user_id' => $user->id, 'action' => 'edit@Lesson'],
-                ['user_id' => $user->id, 'action' => 'destroy@Lesson'],
-                ['user_id' => $user->id, 'action' => 'destroyMany@Lesson'],
-
-                ['user_id' => $user->id, 'action' => 'create@Course'],
-                ['user_id' => $user->id, 'action' => 'edit@Course'],
-                ['user_id' => $user->id, 'action' => 'view@Course'],
-                ['user_id' => $user->id, 'action' => 'destroy@Course'],
-                ['user_id' => $user->id, 'action' => 'destroyMany@Course'],
-            ]);
-        } elseif ($role === 'student') {
-            \App\Models\UserPermission::insert([
-                ['user_id' => $user->id, 'action' => 'view@Lesson'],
-                ['user_id' => $user->id, 'action' => 'watch@Lesson'],
-            ]);
-        }
-
+        $user->assignRole($role);
         $this->info('User Created successfully!');
     }
 }

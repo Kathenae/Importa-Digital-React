@@ -2,24 +2,24 @@
 
 namespace App\Http\Controllers\Admin;
 
+use DB;
+use Exception;
+use Log;
+use Mail;
 use App\Helpers\Popup;
 use App\Helpers\Toast;
 use App\Http\Controllers\Controller;
 use App\Mail\UserCreated;
 use App\Models\Course;
 use App\Models\User;
-use App\Models\UserPermission;
-use Exception;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
-use Log;
-use Mail;
 
 class UserManageController extends Controller
 {
     const RESULT_OK = 0;
     const RESULT_ERROR = 1;
-    
+
     public function index()
     {
         return Inertia::render('Admin/Users', [
@@ -36,74 +36,27 @@ class UserManageController extends Controller
 
     public function store()
     {
-        $validatedData = request()->validate([
-            'name' => 'required',
-            'email' => 'required|unique:users,email',
-            'password' => 'required|min:6|max:255|confirmed',
-            'password_confirmation' => 'required_with:password|same:password',
-            'role' => 'required|in:admin,student',
-            'course' => 'required|exists:courses,id'
-        ]);
-
+        $validatedData = $this->validateRequest();
         $validatedData['password'] = Hash::make($validatedData['password']);
         $email_result = self::RESULT_OK;
         try {
-            \DB::transaction(function () use ($validatedData) {
+            DB::transaction(function () use ($validatedData) {
                 $user = User::create($validatedData);
                 $user->courses()->sync([request('course')]);
-
-                if ($validatedData['role'] === 'admin') {
-                    UserPermission::insert([
-                        ['user_id' => $user->id, 'action' => 'view-admin-dashboard'],
-                        ['user_id' => $user->id, 'action' => 'view@User'],
-                        ['user_id' => $user->id, 'action' => 'view@User'],
-                        ['user_id' => $user->id, 'action' => 'create@User'],
-                        ['user_id' => $user->id, 'action' => 'edit@User'],
-                        ['user_id' => $user->id, 'action' => 'destroy@User'],
-                        ['user_id' => $user->id, 'action' => 'destroyMany@User'],
-                        ['user_id' => $user->id, 'action' => 'view@Lesson'],
-                        ['user_id' => $user->id, 'action' => 'watch@Lesson'],
-                        ['user_id' => $user->id, 'action' => 'create@Lesson'],
-                        ['user_id' => $user->id, 'action' => 'edit@Lesson'],
-                        ['user_id' => $user->id, 'action' => 'destroy@Lesson'],
-                        ['user_id' => $user->id, 'action' => 'destroyMany@Lesson'],
-                    ]);
-                } elseif ($validatedData['role'] === 'student') {
-                    UserPermission::insert([
-                        ['user_id' => $user->id, 'action' => 'view@Lesson'],
-                        ['user_id' => $user->id, 'action' => 'watch@Lesson'],
-                    ]);
-                }
+                $user->assignRole($validatedData['role']);
             });
             $email_result = $this->notifyUserCreated(request('email'), request('password'), route('courses'));
         } catch (Exception $e) {
             Log::error($e->getMessage());
-            return back()->with(['flash.error' => 'Ocurrió un error al crear el usuario.']);
+            return back()->with(Toast::error('Ocurrió un error al crear el usuario.'));
         }
 
-        if($email_result == self::RESULT_OK){
+        if ($email_result == self::RESULT_OK) {
             $msg = "Utilizador creado exitosamente.";
             return redirect()->route('admin.users')->with(Toast::success($msg));
-        }
-        else
-        {
+        } else {
             $msg = "La cuenta de usuario ha sido creada, pero hubo un problema al enviar el correo electrónico al usuario. Por favor, asegúrese de enviarles un correo electrónico informándoles sus credenciales de inicio de sesión.";
             return redirect()->route('admin.users')->with(Popup::info($msg));
-        }
-    }
-
-    private function notifyUserCreated($email, $password, $link){
-        try {
-            Mail::to($email)->send(new UserCreated([
-                'email' => $email,
-                'password' => $password,
-                'link' => $link
-            ]));
-            return self::RESULT_OK;
-        }
-        catch(Exception $e) {
-            Log::error($e->getMessage());
-            return self::RESULT_ERROR;
         }
     }
 
@@ -117,68 +70,57 @@ class UserManageController extends Controller
 
     public function update(User $user)
     {
-        $validatedData = request()->validate([
-            'name' => 'required',
-            'email' => 'required',
-            'password' => 'nullable|confirmed',
-            'password_confirmation' => 'required_with:password|same:password',
-            'course' => 'required|exists:courses,id'
-        ]);
+        $validatedData = $this->validateRequest($user);
 
+        // Check if password is not null and make a hash
         if ($validatedData['password'] !== null) {
             $validatedData['password'] = Hash::make($validatedData['password']);
         } else {
+            // Else remove password so it doens't get updated
             unset($validatedData['password']);
         }
 
-        $user->update($validatedData);
-        $user->courses()->sync([request('course')]);
+        try {
+            DB::transaction(function () use ($user, $validatedData) {
+                $user->update($validatedData);
+                $user->syncRoles($validatedData['role']);
+                $user->courses()->sync([request('course')]);
+            });
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return back()->with(Toast::error('Ocurrió un error al actualizar los dados del usuario.'));
+        }
+
         return redirect()->route('admin.users')->with(Toast::success('Utilizador atualizado exitosamente'));
     }
 
     public function approve()
     {
-        request()->validate([
-            'ids' => 'required|array',
-            'ids.*' => 'required|integer'
-        ]);
-
-        $ids = request('ids');
-
+        $ids = $this->validateIds();
         try {
-            \DB::transaction(function () use ($ids) {
+            DB::transaction(function () use ($ids) {
                 foreach ($ids as $id) {
                     User::where('id', $id)->update(['is_approved' => true]);
-                    UserPermission::firstOrCreate(['user_id' => $id, 'action' => 'view@Lesson']);
-                    UserPermission::firstOrCreate(['user_id' => $id, 'action' => 'watch@Lesson']);
                 }
             });
         } catch (Exception $e) {
-            \Log::error($e->getMessage());
+            Log::error($e->getMessage());
             return back()->with(Toast::error('Ocurrió un error.'));
         }
-
         return redirect()->back()->with(Toast::success('Permiciones alteradas exitosamente.'));
     }
 
     public function unapprove()
     {
-        request()->validate([
-            'ids' => 'required|array',
-            'ids.*' => 'required|integer'
-        ]);
-
-        $ids = request('ids');
-
+        $ids = $this->validateIds();
         try {
-            \DB::transaction(function () use ($ids) {
+            DB::transaction(function () use ($ids) {
                 foreach ($ids as $id) {
                     User::where('id', $id)->update(['is_approved' => false]);
-                    UserPermission::query()->where('user_id', $id)->delete();
                 }
             });
         } catch (Exception $e) {
-            \Log::error($e->getMessage());
+            Log::error($e->getMessage());
             return back()->with(Toast::error('Ocurrió un error.'));
         }
 
@@ -188,20 +130,65 @@ class UserManageController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-
         return redirect()->back()->with(Toast::success('Utilizador eliminado exitosamente.'));
     }
 
     public function destroyMany()
     {
-        request()->validate([
+        $ids = $this->validateIds();
+        User::whereIn('id', $ids)->delete();
+        return redirect()->back()->with(Toast::success('Todos los utilizadores selecionados han sido eliminados.'));
+    }
+
+    /**
+     * Called after creating the user, notifies the owner of the user account
+     * about their login credentials
+     */
+    private function notifyUserCreated($email, $password, $link)
+    {
+        try {
+            Mail::to($email)->send(new UserCreated([
+                'email' => $email,
+                'password' => $password,
+                'link' => $link
+            ]));
+            return self::RESULT_OK;
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return self::RESULT_ERROR;
+        }
+    }
+
+    /**
+     * Validates request data for creating or updating a user
+     *
+     * @param User $userUpdating Optional instance of the user for which we need to validate the request for
+     */
+    private function validateRequest(User $userUpdating = null)
+    {
+        $roles = implode(",", [User::SUPER_ADMIN, User::TEACHER, User::STUDENT]);
+        $validatedData = request()->validate([
+            'name' => 'required|string',
+            'email' => 'required|unique:users,email' . ($userUpdating != null ? ',' . $userUpdating->id : ''),
+            'password' => ($userUpdating != null ? 'nullable' : 'required') . '|min:6|max:255|confirmed',
+            'password_confirmation' => 'required_with:password|same:password',
+            'role' => "required|in:$roles",
+            'course' => 'required|exists:courses,id'
+        ]);
+
+        return $validatedData;
+    }
+
+    /**
+     * Validates the ids for bulk user action
+     */
+    private function validateIds()
+    {
+        $data = request()->validate([
             'ids' => 'required|array',
             'ids.*' => 'required|integer'
         ]);
 
-        $ids = request('ids');
-        User::whereIn('id', $ids)->delete();
-
-        return redirect()->back()->with(Toast::success('Todos los utilizadores selecionados han sido eliminados.'));
+        return $data['ids'];
     }
 }

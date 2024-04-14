@@ -7,10 +7,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, HasRoles, Notifiable;
+
+    const SUPER_ADMIN = 'super-admin';
+    const MODERATOR = 'moderator';
+    const TEACHER = 'teacher';
+    const STUDENT = 'student';
 
     /**
      * The attributes that are mass assignable.
@@ -46,14 +52,6 @@ class User extends Authenticatable
         'is_approved' => 'boolean',
     ];
 
-    /**
-     * Returns the users permissions
-     */
-    public function permissions()
-    {
-        return $this->hasMany(UserPermission::class);
-    }
-
     public function plan()
     {
         return $this->belongsTo(Plan::class);
@@ -62,5 +60,13 @@ class User extends Authenticatable
     public function courses()
     {
         return $this->belongsToMany(Course::class);
+    }
+
+    public function isTeacher(){
+        $this->hasRole(User::TEACHER);
+    }
+
+    public function isStudent(){
+        $this->hasRole(User::STUDENT);
     }
 }

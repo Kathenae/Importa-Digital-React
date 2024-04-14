@@ -31,26 +31,6 @@ export default function Users(props: UsersProps) {
         })
     }
 
-    const handleAprove = () => {
-        const ids = checkedItems.map(item => item.id)
-        console.log(ids);
-        router.patch(route('admin.users.approve'), {
-            ids
-        }, {
-            only: ['users', 'flash', 'errors', 'popup']
-        })
-    }
-
-    const handleUnapprove = () => {
-        const ids = checkedItems.map(item => item.id)
-        console.log(ids);
-        router.patch(route('admin.users.unapprove'), {
-            ids,
-        }, {
-            only: ['users', 'flash', 'errors', 'popup']
-        })
-    }
-
     return (
         <Layout {...props}>
             <Head title="Administração" />
@@ -103,12 +83,6 @@ export default function Users(props: UsersProps) {
                     leaveTo="opacity-0"
                 >
                     <div className="flex items-center fixed bottom-0 p-4 space-x-4">
-                        <SecondaryButton onClick={handleAprove}>
-                            Aprovar
-                        </SecondaryButton>
-                        <SecondaryButton onClick={handleUnapprove}>
-                            Desprovar
-                        </SecondaryButton>
                         <DangerButton onClick={handleDelete}>
                             Eliminar
                         </DangerButton>
