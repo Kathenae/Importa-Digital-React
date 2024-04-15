@@ -13,6 +13,17 @@ export function UserForm({ user, courses }: { user?: User, courses: Course[] }):
     ]
 }
 
+export function TeacherForm({teacher, courses}: { teacher?: User, courses: Course[] }): DynamicFormInputs {
+    return [
+        { name: 'name', type: 'text', value: teacher?.name ?? '' },
+        { name: 'email', type: 'email', value: teacher?.email ?? '' },
+        { name: 'password', type: 'password', value: '' },
+        { name: 'password_confirmation', type: 'password', value: '' },
+        { name: 'role', type:'hidden', value: 'teacher' },
+        { name: 'assigned_courses', value: teacher?.assigned_courses ? teacher.assigned_courses.map(u => u.id) : [], choices: reduceToRecord(courses, 'id', 'name') },
+    ];
+}
+
 export function LessonForm({ lesson, courses }: { lesson?: Lesson, courses: Pick<Course, 'id' | 'name'>[]  }): DynamicFormInputs {
     return [
         { name: 'title', type: 'text', value: lesson?.title ?? '' },

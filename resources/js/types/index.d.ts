@@ -8,9 +8,12 @@ export interface User {
     is_approved: boolean,
     plan?: Plan,
     courses?: Course[],
+    assigned_courses?: Course[],
     role: string,
     permissions: string[],
 }
+
+export type UserType = 'super-admin' | 'teacher' | 'student' | 'moderator'
 
 export interface Plan {
     id: number

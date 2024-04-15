@@ -87,10 +87,14 @@ export function translate(value: string | boolean | number | null) {
         'admin': 'Administrador',
         'moderator': 'Moderador',
         'guest': 'Utilizador',
+        'teacher': 'Professor',
+        'student': 'Estudante',
+        'super-admin': 'Super Admin',
 
         // Course
         'course': 'Curso',
         'courses': 'Cursos',
+        'assigned_courses': 'Cursos Asignados',
         'duration_years': 'Duracion en años',
         'type': 'Tipo',
         'schedule': 'Horario de Clases',
